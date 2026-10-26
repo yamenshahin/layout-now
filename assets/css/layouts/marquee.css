@@ -35,7 +35,7 @@
 	gap: var(--ln-gap);
 	width: max-content;
 	padding-inline-end: var(--ln-gap);
-	animation: lnow-marquee var(--ln-duration, 40s) linear infinite;
+	animation: lnow-marquee var(--ln-marquee-duration, 40s) linear infinite;
 	will-change: transform;
 }
 
@@ -48,7 +48,13 @@
 	animation-direction: normal;
 }
 
-.lnow.lnow:not(#_) .lnow-marquee:is(:hover, :focus-within, .is-paused, .is-offscreen) .lnow-marquee__track {
+/*
+ * Hover/focus pause is scoped to the card rows, never the whole marquee: a focused Play button
+ * must not keep the marquee paused. With :has(), hovering either row pauses both rows together.
+ */
+.lnow.lnow:not(#_) .lnow-marquee:is(.is-paused, .is-offscreen) .lnow-marquee__track,
+.lnow.lnow:not(#_) .lnow-marquee__row:is(:hover, :focus-within) .lnow-marquee__track,
+.lnow.lnow:not(#_) .lnow-marquee:has(.lnow-marquee__row:hover, .lnow-marquee__row:focus-within) .lnow-marquee__track {
 	animation-play-state: paused;
 }
 
@@ -92,9 +98,8 @@
 }
 
 .lnow.lnow:not(#_) .lnow-marquee__toggle {
-	height: 34px;
-	padding: 0 14px 0 12px;
-	font-size: 13px;
+	/* Size comes from .lnow-control--pill; tighter start padding balances the icon. */
+	padding-inline-start: 12px;
 }
 
 .lnow.lnow:not(#_) .lnow-marquee__icon-play,

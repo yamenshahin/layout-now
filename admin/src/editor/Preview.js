@@ -31,10 +31,15 @@ function buildDocument( schema ) {
 		.map( ( src ) => `<script src="${ escapeAttr( src ) }"></script>` )
 		.join( '' );
 
+	// Page backgrounds come from the admin's --a-preview-* tokens (app.scss), the single source of truth.
+	const tokens = window.getComputedStyle( document.querySelector( '.lnow-app' ) || document.documentElement );
+	const light = tokens.getPropertyValue( '--a-preview-light' ).trim() || 'white';
+	const dark = tokens.getPropertyValue( '--a-preview-dark' ).trim() || 'black';
+
 	return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${ styles }<style>
 		html,body{margin:0;min-height:100%}
-		body{padding:40px 32px;box-sizing:border-box;background:#ffffff;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;transition:background-color .25s}
-		body.is-dark{background:#0b0c10}
+		body{padding:40px 32px;box-sizing:border-box;background:${ light };font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;transition:background-color .25s}
+		body.is-dark{background:${ dark }}
 		@media (max-width:600px){body{padding:20px 16px}}
 	</style></head><body><div id="lnow-preview"></div>${ scripts }</body></html>`;
 }

@@ -31,6 +31,9 @@ $layout_now_meta    = $view->show( 'date' ) && $item->timestamp || $view->show( 
 	<div class="lnow-card__body">
 		<?php if ( $layout_now_term ) : ?>
 			<span class="lnow-card__badge"><?php echo esc_html( $layout_now_term['name'] ); ?></span>
+		<?php elseif ( $view->show( 'badge' ) ) : ?>
+			<?php // Invisible spacer keeps titles aligned with neighbouring cards that do have a badge. ?>
+			<span class="lnow-card__badge is-empty" aria-hidden="true"></span>
 		<?php endif; ?>
 		<<?php echo tag_escape( $view->heading_tag() ); ?> class="lnow-card__title"><a href="<?php echo esc_url( $item->url ); ?>"><?php echo esc_html( $item->title ); ?></a></<?php echo tag_escape( $view->heading_tag() ); ?>>
 		<?php if ( '' !== $layout_now_excerpt ) : ?>

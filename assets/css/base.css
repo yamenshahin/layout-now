@@ -8,7 +8,11 @@
  * Customization API: the --ln-* custom properties.
  */
 
-/* ---------- Tokens (skins override these; controls map to them) ---------- */
+/* ---------- Tokens (skins override these; controls map to them) ----------
+ *
+ * Single source of truth: every shared value lives here once. Skins override token values only,
+ * and only where they differ. The light defaults below are the Clean skin's look.
+ */
 
 .lnow.lnow:not(#_) {
 	--ln-accent: #4f46e5;
@@ -29,6 +33,7 @@
 	--ln-title-tracking: -0.01em;
 	--ln-title-scale: 1;
 	--ln-radius: 14px;
+	--ln-radius-pill: 999px; /* Buttons, pills, badges, dots. */
 	--ln-gap: 20px;
 	--ln-pad: 20px;
 	--ln-ratio: 4 / 3;
@@ -36,13 +41,47 @@
 	/* Controls sit on the page, not on a card: they carry their own surface so they read on any background. */
 	--ln-control-bg: var(--ln-surface);
 	--ln-control-text: var(--ln-text);
+	--ln-control-hover-bg: color-mix(in srgb, var(--ln-control-bg) 90%, var(--ln-control-text));
+	--ln-control-size: 40px; /* Round icon buttons. */
+	--ln-pill-height: 36px; /* Text buttons and pills. */
+	--ln-control-font-size: 14px;
+	--ln-focus-ring: 2px solid var(--ln-accent);
+
+	/* Text over images (overlay cards). */
+	--ln-overlay-text: #ffffff;
+	--ln-overlay-muted: rgb(255 255 255 / 0.78);
+
+	/* Motion. */
+	--ln-duration-fast: 0.2s; /* Controls. */
+	--ln-duration: 0.35s; /* Cards, dots, arrows. */
+	--ln-duration-slow: 0.6s; /* Image zoom. */
+
+	/*
+	 * Dark palette, shared by every skin that offers Light/Dark/Auto. Applied by the mode rules
+	 * below; skins override only what differs (e.g. their accent).
+	 */
+	--ln-dark-accent: #818cf8;
+	--ln-dark-on-accent: #111111;
+	--ln-dark-surface: #18181b;
+	--ln-dark-surface-2: #27272a;
+	--ln-dark-text: #fafafa;
+	--ln-dark-muted: #a1a1aa;
+	--ln-dark-border: rgb(255 255 255 / 0.08);
+	--ln-dark-image-edge: rgb(255 255 255 / 0.06);
+	--ln-dark-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 8px 24px -10px rgb(0 0 0 / 0.6);
+	--ln-dark-shadow-hover: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 20px 44px -14px rgb(0 0 0 / 0.75);
+	--ln-dark-backdrop: none;
+	--ln-dark-backdrop-pad: 0;
+	--ln-dark-backdrop-radius: 0;
 
 	container: lnow / inline-size;
 	display: block;
 	box-sizing: border-box;
-	padding: 0;
+	/* Optional backdrop: frameless skins set it in dark mode so text never sits on an unknown page colour. */
+	padding: var(--ln-backdrop-pad, 0);
 	border: 0;
-	background: none;
+	border-radius: var(--ln-backdrop-radius, 0);
+	background: var(--ln-backdrop, none);
 	color: var(--ln-text);
 	font-family: var(--ln-font-body);
 	font-size: 16px;
@@ -58,6 +97,45 @@
 .lnow.lnow:not(#_)[style*="--ln-max"] {
 	max-width: var(--ln-max);
 	margin-inline: auto;
+}
+
+/* ---------- Color mode (skins with modes only; others never get data-mode) ----------
+ *
+ * [data-skin] lifts specificity above the skins' own token blocks. Keep the two blocks identical.
+ */
+
+.lnow.lnow:not(#_)[data-skin][data-mode="dark"] {
+	--ln-accent: var(--ln-dark-accent);
+	--ln-on-accent: var(--ln-dark-on-accent);
+	--ln-surface: var(--ln-dark-surface);
+	--ln-surface-2: var(--ln-dark-surface-2);
+	--ln-text: var(--ln-dark-text);
+	--ln-muted: var(--ln-dark-muted);
+	--ln-border: var(--ln-dark-border);
+	--ln-image-edge: var(--ln-dark-image-edge);
+	--ln-shadow: var(--ln-dark-shadow);
+	--ln-shadow-hover: var(--ln-dark-shadow-hover);
+	--ln-backdrop: var(--ln-dark-backdrop);
+	--ln-backdrop-pad: var(--ln-dark-backdrop-pad);
+	--ln-backdrop-radius: var(--ln-dark-backdrop-radius);
+}
+
+@media (prefers-color-scheme: dark) {
+	.lnow.lnow:not(#_)[data-skin][data-mode="auto"] {
+		--ln-accent: var(--ln-dark-accent);
+		--ln-on-accent: var(--ln-dark-on-accent);
+		--ln-surface: var(--ln-dark-surface);
+		--ln-surface-2: var(--ln-dark-surface-2);
+		--ln-text: var(--ln-dark-text);
+		--ln-muted: var(--ln-dark-muted);
+		--ln-border: var(--ln-dark-border);
+		--ln-image-edge: var(--ln-dark-image-edge);
+		--ln-shadow: var(--ln-dark-shadow);
+		--ln-shadow-hover: var(--ln-dark-shadow-hover);
+		--ln-backdrop: var(--ln-dark-backdrop);
+		--ln-backdrop-pad: var(--ln-dark-backdrop-pad);
+		--ln-backdrop-radius: var(--ln-dark-backdrop-radius);
+	}
 }
 
 /* ---------- Stepped controls ---------- */
@@ -153,20 +231,28 @@
 	align-items: center;
 	justify-content: center;
 	gap: 0.45em;
-	height: 40px;
-	min-width: 40px;
+	height: var(--ln-control-size);
+	min-width: var(--ln-control-size);
 	padding: 0 14px;
-	border-radius: 999px;
+	border-radius: var(--ln-radius-pill);
 	background: var(--ln-control-bg);
 	box-shadow: inset 0 0 0 1px var(--ln-border), var(--ln-shadow);
 	color: var(--ln-control-text);
-	font-size: 14px;
+	font-size: var(--ln-control-font-size);
 	font-weight: 600;
-	transition: background-color 0.2s, opacity 0.2s, transform 0.2s var(--ln-ease);
+	white-space: nowrap;
+	transition: background-color var(--ln-duration-fast), color var(--ln-duration-fast), box-shadow var(--ln-duration-fast), opacity var(--ln-duration-fast), transform var(--ln-duration-fast) var(--ln-ease);
+}
+
+/* Text button / pill variant (filter pills, pause): shorter and flat, no floating shadow. */
+.lnow.lnow:not(#_) .lnow-control--pill {
+	height: var(--ln-pill-height);
+	padding: 0 16px;
+	box-shadow: inset 0 0 0 1px var(--ln-border);
 }
 
 .lnow.lnow:not(#_) .lnow-control:hover {
-	background: color-mix(in srgb, var(--ln-control-bg) 90%, var(--ln-control-text));
+	background: var(--ln-control-hover-bg);
 }
 
 .lnow.lnow:not(#_) .lnow-control:active {
@@ -180,7 +266,7 @@
 }
 
 .lnow.lnow:not(#_) :is(.lnow-control, .lnow-carousel__track, .lnow-carousel__dot):focus-visible {
-	outline: 2px solid var(--ln-accent);
+	outline: var(--ln-focus-ring);
 	outline-offset: 2px;
 }
 
@@ -210,7 +296,7 @@
 	border-radius: var(--ln-radius);
 	box-shadow: var(--ln-shadow);
 	color: var(--ln-text);
-	transition: transform 0.35s var(--ln-ease), box-shadow 0.35s var(--ln-ease);
+	transition: transform var(--ln-duration) var(--ln-ease), box-shadow var(--ln-duration) var(--ln-ease);
 }
 
 .lnow.lnow:not(#_) .lnow-card__media {
@@ -219,6 +305,15 @@
 	aspect-ratio: var(--ln-ratio);
 	overflow: hidden;
 	background: var(--ln-surface-2);
+}
+
+/* Spacer for cards without a badge, so titles line up with neighbouring cards. */
+.lnow.lnow:not(#_) .lnow-card__badge.is-empty {
+	visibility: hidden;
+}
+
+.lnow.lnow:not(#_) .lnow-card__badge.is-empty::before {
+	content: "\00a0";
 }
 
 /* Hairline edge so photos with white backgrounds don't bleed into white surfaces. */
@@ -235,7 +330,7 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: transform 0.6s var(--ln-ease);
+	transition: transform var(--ln-duration-slow) var(--ln-ease);
 }
 
 .lnow.lnow:not(#_) .lnow-card__placeholder {
@@ -265,7 +360,7 @@
 .lnow.lnow:not(#_) .lnow-card__badge {
 	display: inline-block;
 	padding: 0.4em 0.75em;
-	border-radius: 999px;
+	border-radius: var(--ln-radius-pill);
 	background: var(--ln-accent-soft);
 	color: var(--ln-accent-text);
 	font-size: 0.72em;
@@ -307,7 +402,7 @@
 }
 
 .lnow.lnow:not(#_) .lnow-card__title a:focus-visible::after {
-	outline: 2px solid var(--ln-accent);
+	outline: var(--ln-focus-ring);
 	outline-offset: -2px;
 	border-radius: var(--ln-radius);
 }
@@ -356,7 +451,7 @@
 }
 
 .lnow.lnow:not(#_) .lnow-card__arrow {
-	transition: transform 0.3s var(--ln-ease);
+	transition: transform var(--ln-duration) var(--ln-ease);
 }
 
 /* ---------- Overlay cards (text over the image) ---------- */
@@ -366,7 +461,7 @@
 	justify-content: flex-end;
 	border: 0;
 	background: var(--ln-surface);
-	color: #ffffff;
+	color: var(--ln-overlay-text);
 }
 
 .lnow.lnow:not(#_)[data-card="overlay"] .lnow-card__media {
@@ -394,11 +489,11 @@
 }
 
 .lnow.lnow:not(#_)[data-card="overlay"] :is(.lnow-card__excerpt, .lnow-card__meta) {
-	color: rgb(255 255 255 / 0.78);
+	color: var(--ln-overlay-muted);
 }
 
 .lnow.lnow:not(#_)[data-card="overlay"] .lnow-card__more {
-	color: #ffffff;
+	color: var(--ln-overlay-text);
 }
 
 /* Narrow cards: drop the excerpt instead of cramming it. */

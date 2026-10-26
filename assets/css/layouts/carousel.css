@@ -103,7 +103,7 @@
 }
 
 .lnow.lnow:not(#_) .lnow-carousel__arrow {
-	width: 40px;
+	width: var(--ln-control-size);
 	padding: 0;
 }
 
@@ -125,17 +125,17 @@
 	min-width: 24px;
 	height: 24px;
 	padding: 0 7px;
-	border-radius: 999px;
+	border-radius: var(--ln-radius-pill);
 }
 
 .lnow.lnow:not(#_) .lnow-carousel__dot::before {
 	content: "";
 	width: 8px;
 	height: 8px;
-	border-radius: 999px;
+	border-radius: var(--ln-radius-pill);
 	background: var(--ln-control-bg);
 	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ln-control-text) 35%, transparent);
-	transition: width 0.3s var(--ln-ease), background-color 0.3s;
+	transition: width var(--ln-duration) var(--ln-ease), background-color var(--ln-duration);
 }
 
 .lnow.lnow:not(#_) .lnow-carousel__dot[aria-current="true"]::before {

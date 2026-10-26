@@ -19,35 +19,7 @@
 	margin-bottom: calc(var(--ln-gap) + 4px);
 }
 
-.lnow.lnow:not(#_) .lnow-filter__pill {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5em;
-	height: 36px;
-	padding: 0 16px;
-	border-radius: 999px;
-	background: var(--ln-control-bg);
-	box-shadow: inset 0 0 0 1px var(--ln-border);
-	color: var(--ln-control-text);
-	font-size: 14px;
-	font-weight: 600;
-	white-space: nowrap;
-	transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s var(--ln-ease);
-}
-
-.lnow.lnow:not(#_) .lnow-filter__pill:hover {
-	background: color-mix(in srgb, var(--ln-control-bg) 90%, var(--ln-control-text));
-}
-
-.lnow.lnow:not(#_) .lnow-filter__pill:active {
-	transform: scale(0.96);
-}
-
-.lnow.lnow:not(#_) .lnow-filter__pill:focus-visible {
-	outline: 2px solid var(--ln-accent);
-	outline-offset: 2px;
-}
-
+/* Pills are .lnow-control--pill (size, colors, hover, focus come from base.css); only the selected state lives here. */
 .lnow.lnow:not(#_) .lnow-filter__pill[aria-pressed="true"] {
 	background: var(--ln-accent);
 	box-shadow: none;

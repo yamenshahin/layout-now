@@ -78,11 +78,19 @@ final class Item {
 	public $author = '';
 
 	/**
-	 * Terms as arrays with id, name, slug and taxonomy keys. The first entry is the primary term.
+	 * Terms as arrays with id, name, slug and taxonomy keys (used for filtering).
 	 *
 	 * @var array[]
 	 */
 	public $terms = array();
+
+	/**
+	 * Term shown as the card badge (same shape as a terms entry), or null for none.
+	 * Chosen by the source, so e.g. posts badge a category and never fall back to a tag.
+	 *
+	 * @var array|null
+	 */
+	public $badge = null;
 
 	/**
 	 * Constructor.
@@ -100,6 +108,7 @@ final class Item {
 		$this->timestamp = isset( $data['timestamp'] ) ? (int) $data['timestamp'] : 0;
 		$this->author    = isset( $data['author'] ) ? (string) $data['author'] : '';
 		$this->terms     = isset( $data['terms'] ) && is_array( $data['terms'] ) ? array_values( $data['terms'] ) : array();
+		$this->badge     = isset( $data['badge'] ) && is_array( $data['badge'] ) ? $data['badge'] : null;
 	}
 
 	/**
@@ -131,11 +140,11 @@ final class Item {
 	}
 
 	/**
-	 * Primary term, used for badges.
+	 * Term shown as the card badge.
 	 *
 	 * @return array|null
 	 */
 	public function primary_term() {
-		return isset( $this->terms[0] ) ? $this->terms[0] : null;
+		return $this->badge;
 	}
 }

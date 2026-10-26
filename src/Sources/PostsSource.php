@@ -207,6 +207,15 @@ final class PostsSource implements SourceInterface {
 	 * @return Item
 	 */
 	private function to_item( WP_Post $post ) {
+		$terms = $this->terms( $post );
+		$badge = null;
+		foreach ( $terms as $term ) {
+			if ( 'category' === $term['taxonomy'] ) {
+				$badge = $term;
+				break;
+			}
+		}
+
 		return new Item(
 			array(
 				'id'        => $post->ID,
@@ -216,7 +225,8 @@ final class PostsSource implements SourceInterface {
 				'image_id'  => (int) get_post_thumbnail_id( $post ),
 				'timestamp' => (int) get_post_timestamp( $post ),
 				'author'    => get_the_author_meta( 'display_name', (int) $post->post_author ),
-				'terms'     => $this->terms( $post ),
+				'terms'     => $terms,
+				'badge'     => $badge,
 			)
 		);
 	}

@@ -4,11 +4,11 @@
 
 .lnow.lnow:not(#_)[data-skin="cinematic"] {
 	--ln-accent: #f59e0b;
-	--ln-on-accent: #111111;
+	--ln-on-accent: var(--ln-dark-on-accent);
 	--ln-surface: #0c0c0e;
-	--ln-surface-2: #18181b;
-	--ln-text: #ffffff;
-	--ln-muted: rgb(255 255 255 / 0.78);
+	--ln-surface-2: var(--ln-dark-surface);
+	--ln-text: var(--ln-overlay-text);
+	--ln-muted: var(--ln-overlay-muted);
 	--ln-border: transparent;
 	--ln-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.55);
 	--ln-shadow-hover: 0 30px 60px -24px rgb(0 0 0 / 0.65);

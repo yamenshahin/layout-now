@@ -24,6 +24,11 @@ final class ItemCache {
 	const TTL = 12 * HOUR_IN_SECONDS;
 
 	/**
+	 * Bump when the cached Item shape changes, so old entries are never read back.
+	 */
+	const FORMAT = 2;
+
+	/**
 	 * Registers invalidation hooks.
 	 */
 	public function hooks() {
@@ -55,7 +60,7 @@ final class ItemCache {
 			return $source->get_items( $options, $context );
 		}
 
-		$transient = 'layout_now_' . md5( $key . '|' . $this->version() );
+		$transient = 'layout_now_' . md5( $key . '|' . $this->version() . '|' . self::FORMAT );
 		$cached    = get_transient( $transient );
 
 		if ( is_array( $cached ) ) {

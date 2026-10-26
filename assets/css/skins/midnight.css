@@ -4,13 +4,12 @@
 
 .lnow.lnow:not(#_)[data-skin="midnight"] {
 	--ln-accent: #8b5cf6;
-	--ln-on-accent: #ffffff;
 	--ln-surface: #11131a;
 	--ln-surface-2: #1a1d27;
 	--ln-text: #e8eaf0;
 	--ln-muted: #8e95a8;
-	--ln-border: rgb(255 255 255 / 0.08);
-	--ln-image-edge: rgb(255 255 255 / 0.06);
+	--ln-border: var(--ln-dark-border);
+	--ln-image-edge: var(--ln-dark-image-edge);
 	--ln-shadow: 0 12px 32px -16px rgb(0 0 0 / 0.6);
 	--ln-shadow-hover: 0 22px 48px -18px rgb(0 0 0 / 0.75);
 	--ln-title-weight: 600;

@@ -1,44 +1,11 @@
 /**
  * Layout Now skin: Clean — white cards, soft layered shadows, neutral grays.
+ *
+ * Clean is the base look: its light values are the defaults in base.css and its dark mode is the
+ * shared --ln-dark-* palette, so this skin only pins its accent.
  */
 
 .lnow.lnow:not(#_)[data-skin="clean"] {
 	--ln-accent: #4f46e5;
-	--ln-on-accent: #ffffff;
-	--ln-surface: #ffffff;
-	--ln-surface-2: #f4f4f5;
-	--ln-text: #18181b;
-	--ln-muted: #71717a;
-	--ln-border: rgb(24 24 27 / 0.08);
-	--ln-shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 4px 16px -4px rgb(16 24 40 / 0.08);
-	--ln-shadow-hover: 0 2px 4px rgb(16 24 40 / 0.05), 0 18px 40px -12px rgb(16 24 40 / 0.22);
-	--ln-title-weight: 650;
-}
-
-.lnow.lnow:not(#_)[data-skin="clean"][data-mode="dark"] {
-	--ln-accent: #818cf8;
-	--ln-on-accent: #111111;
-	--ln-surface: #18181b;
-	--ln-surface-2: #27272a;
-	--ln-text: #fafafa;
-	--ln-muted: #a1a1aa;
-	--ln-border: rgb(255 255 255 / 0.08);
-	--ln-image-edge: rgb(255 255 255 / 0.06);
-	--ln-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 8px 24px -10px rgb(0 0 0 / 0.6);
-	--ln-shadow-hover: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 20px 44px -14px rgb(0 0 0 / 0.75);
-}
-
-@media (prefers-color-scheme: dark) {
-	.lnow.lnow:not(#_)[data-skin="clean"][data-mode="auto"] {
-		--ln-accent: #818cf8;
-		--ln-on-accent: #111111;
-		--ln-surface: #18181b;
-		--ln-surface-2: #27272a;
-		--ln-text: #fafafa;
-		--ln-muted: #a1a1aa;
-		--ln-border: rgb(255 255 255 / 0.08);
-		--ln-image-edge: rgb(255 255 255 / 0.06);
-		--ln-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 8px 24px -10px rgb(0 0 0 / 0.6);
-		--ln-shadow-hover: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 20px 44px -14px rgb(0 0 0 / 0.75);
-	}
+	--ln-dark-accent: #818cf8;
 }

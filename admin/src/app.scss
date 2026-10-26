@@ -27,13 +27,28 @@ $sidebar: 344px;
 	--a-panel: #ffffff;
 	--a-line: #e6e8ec;
 	--a-line-strong: #d4d7de;
+	--a-line-hover: #aeb3bf;
 	--a-text: #18181b;
 	--a-muted: #5b6170;
 	--a-subtle: #f1f2f5;
 	--a-brand: #4f46e5;
 	--a-brand-soft: #eef0ff;
+	--a-brand-hover: #4338ca;
+	--a-brand-text: #3730a3;
+	--a-on-solid: #ffffff; /* Text on brand, dark and danger fills. */
 	--a-danger: #dc2626;
-	--a-radius: 10px;
+	--a-warning: #f59e0b;
+	--a-canvas-dark: #111216;
+	/* Preview page backgrounds; dark matches the frontend's shared dark surface (--ln-dark-surface). */
+	--a-preview-light: #ffffff;
+	--a-preview-dark: #18181b;
+
+	/* Radius scale. */
+	--a-radius-xs: 6px; /* Buttons inside a group. */
+	--a-radius-sm: 8px; /* Inputs, buttons. */
+	--a-radius-md: 10px; /* Groups. */
+	--a-radius-lg: 12px; /* Cards, panels, tiles. */
+	--a-radius-pill: 999px;
 	--a-shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 8px 24px -12px rgb(16 24 40 / 0.12);
 	--a-height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
 
@@ -84,24 +99,24 @@ $sidebar: 344px;
 	height: 36px;
 	padding: 0 14px;
 	border: 1px solid var(--a-line-strong);
-	border-radius: 8px;
+	border-radius: var(--a-radius-sm);
 	background: var(--a-panel);
 	font-weight: 600;
 	white-space: nowrap;
 	transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, opacity 0.15s;
 
 	&:hover {
-		border-color: #b9bdc7;
+		border-color: var(--a-line-hover);
 	}
 
 	&.is-primary {
 		border-color: var(--a-brand);
 		background: var(--a-brand);
-		color: #fff;
+		color: var(--a-on-solid);
 		box-shadow: 0 1px 2px rgb(79 70 229 / 0.25), inset 0 1px 0 rgb(255 255 255 / 0.15);
 
 		&:hover {
-			background: #4338ca;
+			background: var(--a-brand-hover);
 		}
 	}
 
@@ -133,7 +148,7 @@ $sidebar: 344px;
 	height: 36px;
 	padding: 0;
 	border: 0;
-	border-radius: 8px;
+	border-radius: var(--a-radius-sm);
 	background: transparent;
 	color: var(--a-muted);
 	transition: background 0.15s, color 0.15s;
@@ -145,7 +160,7 @@ $sidebar: 344px;
 
 	&.is-active {
 		background: var(--a-text);
-		color: #fff;
+		color: var(--a-on-solid);
 	}
 }
 
@@ -154,7 +169,7 @@ $sidebar: 344px;
 	min-height: 36px;
 	padding: 0 10px;
 	border: 1px solid var(--a-line-strong);
-	border-radius: 8px;
+	border-radius: var(--a-radius-sm);
 	background: var(--a-panel);
 	color: var(--a-text);
 	font-size: 13px;
@@ -188,7 +203,7 @@ select.lnow-input {
 	height: 30px;
 	padding: 0 10px;
 	border: 1px solid var(--a-line);
-	border-radius: 999px;
+	border-radius: var(--a-radius-pill);
 	background: var(--a-subtle);
 	color: var(--a-muted);
 
@@ -220,16 +235,16 @@ select.lnow-input {
 
 .lnow-toast {
 	padding: 10px 16px;
-	border-radius: 10px;
-	background: #18181b;
-	color: #fff;
+	border-radius: var(--a-radius-md);
+	background: var(--a-text);
+	color: var(--a-on-solid);
 	font-size: 13px;
 	font-weight: 500;
 	box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.35);
 	animation: lnow-toast-in 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
 
 	&.is-error {
-		background: var(--a-danger, #dc2626);
+		background: var(--a-danger);
 	}
 }
 
@@ -280,7 +295,7 @@ select.lnow-input {
 	flex-direction: column;
 	overflow: hidden;
 	border: 1px solid var(--a-line);
-	border-radius: 14px;
+	border-radius: var(--a-radius-lg);
 	background: var(--a-panel);
 	box-shadow: var(--a-shadow);
 	transition: transform 0.2s, box-shadow 0.2s;
@@ -364,7 +379,7 @@ select.lnow-input {
 .lnow-empty__art {
 	width: 260px;
 	overflow: hidden;
-	border-radius: 16px;
+	border-radius: var(--a-radius-lg);
 	box-shadow: var(--a-shadow);
 
 	.lnow-glyph {
@@ -418,7 +433,7 @@ select.lnow-input {
 	gap: 6px;
 	padding: 12px 12px 18px;
 	border: 1px solid var(--a-line);
-	border-radius: 16px;
+	border-radius: var(--a-radius-lg);
 	background: var(--a-panel);
 	text-align: start;
 	box-shadow: var(--a-shadow);
@@ -427,7 +442,7 @@ select.lnow-input {
 	.lnow-glyph {
 		width: 100%;
 		margin-bottom: 8px;
-		border-radius: 10px;
+		border-radius: var(--a-radius-md);
 		aspect-ratio: 16 / 9;
 	}
 
@@ -519,7 +534,7 @@ select.lnow-input {
 	align-items: center;
 	gap: 2px;
 	padding: 3px;
-	border-radius: 10px;
+	border-radius: var(--a-radius-md);
 	background: var(--a-subtle);
 
 	.lnow-icon-button {
@@ -541,7 +556,7 @@ select.lnow-input {
 	height: 36px;
 	padding: 0 8px;
 	border: 1px solid transparent;
-	border-radius: 8px;
+	border-radius: var(--a-radius-sm);
 	background: transparent;
 	font-size: 15px;
 	font-weight: 650;
@@ -571,7 +586,7 @@ select.lnow-input {
 		height: 6px;
 		margin-right: 6px;
 		border-radius: 50%;
-		background: #f59e0b;
+		background: var(--a-warning);
 		vertical-align: middle;
 	}
 }
@@ -602,13 +617,13 @@ select.lnow-input {
 	gap: 4px;
 	margin: 12px 16px 4px;
 	padding: 4px;
-	border-radius: 10px;
+	border-radius: var(--a-radius-md);
 	background: var(--a-subtle);
 
 	button {
 		height: 30px;
 		border: 0;
-		border-radius: 7px;
+		border-radius: var(--a-radius-xs);
 		background: transparent;
 		color: var(--a-muted);
 		font-weight: 600;
@@ -695,7 +710,7 @@ select.lnow-input {
 
 .lnow-note {
 	padding: 8px 10px;
-	border-radius: 8px;
+	border-radius: var(--a-radius-sm);
 	background: var(--a-subtle);
 }
 
@@ -705,7 +720,7 @@ select.lnow-input {
 	display: flex;
 	gap: 2px;
 	padding: 3px;
-	border-radius: 9px;
+	border-radius: var(--a-radius-md);
 	background: var(--a-subtle);
 
 	button {
@@ -715,7 +730,7 @@ select.lnow-input {
 		padding: 0 6px;
 		overflow: hidden;
 		border: 0;
-		border-radius: 6px;
+		border-radius: var(--a-radius-xs);
 		background: transparent;
 		color: var(--a-muted);
 		font-size: 12px;
@@ -762,7 +777,7 @@ select.lnow-input {
 		height: 20px;
 		padding: 0;
 		border: 0;
-		border-radius: 999px;
+		border-radius: var(--a-radius-pill);
 		background: var(--a-line-strong);
 		transition: background 0.2s;
 
@@ -773,7 +788,7 @@ select.lnow-input {
 			width: 16px;
 			height: 16px;
 			border-radius: 50%;
-			background: #fff;
+			background: var(--a-panel);
 			box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
 			transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 		}
@@ -799,7 +814,7 @@ select.lnow-input {
 		flex: 1;
 		height: 4px;
 		margin: 0;
-		border-radius: 999px;
+		border-radius: var(--a-radius-pill);
 		background: linear-gradient(to right, var(--a-brand) var(--lnow-fill), var(--a-line-strong) var(--lnow-fill));
 		appearance: none;
 
@@ -808,7 +823,7 @@ select.lnow-input {
 			height: 16px;
 			border: 2px solid var(--a-brand);
 			border-radius: 50%;
-			background: #fff;
+			background: var(--a-panel);
 			appearance: none;
 		}
 
@@ -817,7 +832,7 @@ select.lnow-input {
 			height: 12px;
 			border: 2px solid var(--a-brand);
 			border-radius: 50%;
-			background: #fff;
+			background: var(--a-panel);
 		}
 	}
 
@@ -844,7 +859,7 @@ select.lnow-input {
 	padding: 0;
 	border: 0;
 	border-radius: 50%;
-	background: var(--swatch, #fff);
+	background: var(--swatch, var(--a-panel));
 	box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.1);
 	transition: transform 0.15s;
 
@@ -862,7 +877,7 @@ select.lnow-input {
 		inset: 0;
 		display: grid;
 		place-items: center;
-		color: #fff;
+		color: var(--a-on-solid);
 		font-size: 11px;
 		font-weight: 700;
 	}
@@ -885,8 +900,8 @@ select.lnow-input {
 
 	&.is-loading {
 		height: 30px;
-		border-radius: 8px;
-		background: linear-gradient(90deg, var(--a-subtle), #e9ebef, var(--a-subtle));
+		border-radius: var(--a-radius-sm);
+		background: linear-gradient(90deg, var(--a-subtle), var(--a-line), var(--a-subtle));
 		background-size: 200% 100%;
 		animation: lnow-shimmer 1.2s linear infinite;
 	}
@@ -898,19 +913,19 @@ select.lnow-input {
 		height: 28px;
 		padding: 0 10px;
 		border: 1px solid var(--a-line-strong);
-		border-radius: 999px;
+		border-radius: var(--a-radius-pill);
 		background: var(--a-panel);
 		font-size: 12px;
 		font-weight: 500;
 
 		&:hover {
-			border-color: #a9aebb;
+			border-color: var(--a-line-hover);
 		}
 
 		&.is-active {
 			border-color: var(--a-brand);
 			background: var(--a-brand-soft);
-			color: #3730a3;
+			color: var(--a-brand-text);
 		}
 	}
 }
@@ -944,13 +959,13 @@ select.lnow-input {
 		height: 32px;
 		padding: 0 12px 0 6px;
 		border: 1px solid var(--a-line-strong);
-		border-radius: 999px;
+		border-radius: var(--a-radius-pill);
 		background: var(--a-panel);
 		font-size: 12px;
 		font-weight: 600;
 
 		&:hover {
-			border-color: #a9aebb;
+			border-color: var(--a-line-hover);
 		}
 
 		&.is-active {
@@ -981,7 +996,7 @@ select.lnow-input {
 		gap: 6px;
 		padding: 6px 6px 8px;
 		border: 1px solid var(--a-line);
-		border-radius: 12px;
+		border-radius: var(--a-radius-lg);
 		background: var(--a-panel);
 		font-size: 12px;
 		font-weight: 600;
@@ -1006,7 +1021,7 @@ select.lnow-input {
 		display: block;
 		width: 100%;
 		height: auto;
-		border-radius: 8px;
+		border-radius: var(--a-radius-sm);
 	}
 }
 
@@ -1029,7 +1044,7 @@ select.lnow-input {
 	background-size: 16px 16px;
 
 	&.is-dark {
-		background-color: #111216;
+		background-color: var(--a-canvas-dark);
 		background-image: radial-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px);
 	}
 }
@@ -1039,7 +1054,7 @@ select.lnow-input {
 	max-width: 100%;
 	height: 100%;
 	overflow: hidden;
-	border-radius: 12px;
+	border-radius: var(--a-radius-lg);
 	box-shadow: 0 0 0 1px rgb(0 0 0 / 0.06), 0 24px 48px -24px rgb(16 24 40 / 0.35);
 	transition: width 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
 
@@ -1048,7 +1063,7 @@ select.lnow-input {
 		width: 100%;
 		height: 100%;
 		border: 0;
-		background: #fff;
+		background: var(--a-preview-light);
 	}
 }
 
@@ -1056,7 +1071,7 @@ select.lnow-input {
 	box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08), 0 24px 48px -24px rgb(0 0 0 / 0.6);
 
 	iframe {
-		background: #0b0c10;
+		background: var(--a-preview-dark);
 	}
 }
 
@@ -1102,9 +1117,9 @@ select.lnow-input {
 	left: 50%;
 	z-index: 2;
 	padding: 8px 14px;
-	border-radius: 8px;
+	border-radius: var(--a-radius-sm);
 	background: var(--a-danger);
-	color: #fff;
+	color: var(--a-on-solid);
 	transform: translateX(-50%);
 }
 
