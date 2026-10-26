@@ -1,0 +1,385 @@
+<?php
+/**
+ * Single source of truth for layout settings: defaults, sanitization and admin export.
+ *
+ * @package LayoutNow
+ */
+
+namespace LayoutNow\Settings;
+
+use LayoutNow\Registry;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Config shape:
+ *
+ *     version        int
+ *     layout         string  Active layout ID.
+ *     layout_options array   Options keyed by layout ID (kept when switching layouts).
+ *     source         string  Active source ID.
+ *     source_options array   Options keyed by source ID.
+ *     style          array   Skin and global style controls.
+ *
+ * Field definition keys: type (select|toggle|number|color|terms|class|text), default, label,
+ * choices (select), min/max/step (number), taxonomy (terms), live (true when the admin preview
+ * can apply the change without a server re-render).
+ */
+final class Schema {
+
+	const VERSION = 1;
+
+	/**
+	 * Registry.
+	 *
+	 * @var Registry
+	 */
+	private $registry;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param Registry $registry Registry.
+	 */
+	public function __construct( Registry $registry ) {
+		$this->registry = $registry;
+	}
+
+	/**
+	 * Global style fields.
+	 *
+	 * @return array
+	 */
+	public function style_fields() {
+		$skins = array();
+		foreach ( $this->registry->skins() as $id => $skin ) {
+			$skins[ $id ] = $skin->label;
+		}
+
+		$auto = __( 'Skin default', 'layout-now' );
+
+		$fields = array(
+			'skin'           => array(
+				'type'    => 'select',
+				'label'   => __( 'Skin', 'layout-now' ),
+				'default' => isset( $skins['clean'] ) ? 'clean' : (string) key( $skins ),
+				'choices' => $skins,
+				'live'    => true,
+			),
+			'accent'         => array(
+				'type'    => 'color',
+				'label'   => __( 'Accent color', 'layout-now' ),
+				'default' => '',
+				'live'    => true,
+			),
+			'mode'           => array(
+				'type'    => 'select',
+				'label'   => __( 'Color mode', 'layout-now' ),
+				'default' => 'light',
+				'choices' => array(
+					'light' => __( 'Light', 'layout-now' ),
+					'dark'  => __( 'Dark', 'layout-now' ),
+					'auto'  => __( 'Auto', 'layout-now' ),
+				),
+				'live'    => true,
+			),
+			'radius'         => array(
+				'type'    => 'select',
+				'label'   => __( 'Corners', 'layout-now' ),
+				'default' => 'auto',
+				'choices' => array(
+					'auto'  => $auto,
+					'sharp' => __( 'Sharp', 'layout-now' ),
+					'soft'  => __( 'Soft', 'layout-now' ),
+					'round' => __( 'Round', 'layout-now' ),
+				),
+				'live'    => true,
+			),
+			'spacing'        => array(
+				'type'    => 'select',
+				'label'   => __( 'Spacing', 'layout-now' ),
+				'default' => 'auto',
+				'choices' => array(
+					'auto'        => $auto,
+					'compact'     => __( 'Compact', 'layout-now' ),
+					'comfortable' => __( 'Comfortable', 'layout-now' ),
+					'airy'        => __( 'Airy', 'layout-now' ),
+				),
+				'live'    => true,
+			),
+			'hover'          => array(
+				'type'    => 'select',
+				'label'   => __( 'Hover effect', 'layout-now' ),
+				'default' => 'auto',
+				'choices' => array(
+					'auto' => $auto,
+					'none' => __( 'None', 'layout-now' ),
+					'lift' => __( 'Lift', 'layout-now' ),
+					'zoom' => __( 'Zoom', 'layout-now' ),
+					'glow' => __( 'Glow', 'layout-now' ),
+				),
+				'live'    => true,
+			),
+			'ratio'          => array(
+				'type'    => 'select',
+				'label'   => __( 'Image ratio', 'layout-now' ),
+				'default' => 'landscape',
+				'choices' => array(
+					'square'    => '1:1',
+					'landscape' => '4:3',
+					'wide'      => '16:9',
+					'portrait'  => '3:4',
+				),
+				'live'    => true,
+			),
+			'title_size'     => array(
+				'type'    => 'select',
+				'label'   => __( 'Title size', 'layout-now' ),
+				'default' => 'm',
+				'choices' => array(
+					's' => __( 'S', 'layout-now' ),
+					'm' => __( 'M', 'layout-now' ),
+					'l' => __( 'L', 'layout-now' ),
+				),
+				'live'    => true,
+			),
+			'font'           => array(
+				'type'    => 'select',
+				'label'   => __( 'Font', 'layout-now' ),
+				'default' => 'skin',
+				'choices' => array(
+					'skin'    => __( 'Skin font', 'layout-now' ),
+					'inherit' => __( 'Inherit theme font', 'layout-now' ),
+				),
+				'live'    => true,
+			),
+			'show_image'     => array(
+				'type'    => 'toggle',
+				'label'   => __( 'Image', 'layout-now' ),
+				'default' => true,
+			),
+			'show_badge'     => array(
+				'type'    => 'toggle',
+				'label'   => __( 'Category badge', 'layout-now' ),
+				'default' => true,
+			),
+			'show_excerpt'   => array(
+				'type'    => 'toggle',
+				'label'   => __( 'Excerpt', 'layout-now' ),
+				'default' => true,
+			),
+			'excerpt_length' => array(
+				'type'    => 'number',
+				'label'   => __( 'Excerpt length (words)', 'layout-now' ),
+				'default' => 18,
+				'min'     => 5,
+				'max'     => 60,
+				'step'    => 1,
+			),
+			'show_date'      => array(
+				'type'    => 'toggle',
+				'label'   => __( 'Date', 'layout-now' ),
+				'default' => true,
+			),
+			'show_author'    => array(
+				'type'    => 'toggle',
+				'label'   => __( 'Author', 'layout-now' ),
+				'default' => false,
+			),
+			'show_more'      => array(
+				'type'    => 'toggle',
+				'label'   => __( 'Read more', 'layout-now' ),
+				'default' => false,
+			),
+			'max_width'      => array(
+				'type'    => 'number',
+				'label'   => __( 'Max width (px, 0 = full)', 'layout-now' ),
+				'default' => 0,
+				'min'     => 0,
+				'max'     => 2400,
+				'step'    => 10,
+				'live'    => true,
+			),
+			'css_class'      => array(
+				'type'    => 'class',
+				'label'   => __( 'Extra CSS class', 'layout-now' ),
+				'default' => '',
+			),
+		);
+
+		/**
+		 * Filters the global style fields.
+		 *
+		 * @param array $fields Field definitions.
+		 */
+		return apply_filters( 'layout_now_style_fields', $fields );
+	}
+
+	/**
+	 * Full default config.
+	 *
+	 * @return array
+	 */
+	public function defaults() {
+		return $this->normalize( array() );
+	}
+
+	/**
+	 * Sanitizes a raw config and fills in every missing value.
+	 *
+	 * @param mixed $raw Raw config (e.g. decoded JSON or a REST payload).
+	 * @return array
+	 */
+	public function normalize( $raw ) {
+		$raw = is_array( $raw ) ? $raw : array();
+
+		$layouts = $this->registry->layouts();
+		$sources = $this->registry->sources();
+
+		$layout = isset( $raw['layout'] ) && isset( $layouts[ $raw['layout'] ] ) ? $raw['layout'] : (string) key( $layouts );
+		$source = isset( $raw['source'] ) && isset( $sources[ $raw['source'] ] ) ? $raw['source'] : (string) key( $sources );
+
+		return array(
+			'version'        => self::VERSION,
+			'layout'         => $layout,
+			'layout_options' => $this->normalize_group( $layouts, $layout, isset( $raw['layout_options'] ) ? $raw['layout_options'] : array() ),
+			'source'         => $source,
+			'source_options' => $this->normalize_group( $sources, $source, isset( $raw['source_options'] ) ? $raw['source_options'] : array() ),
+			'style'          => self::sanitize_fields( $this->style_fields(), isset( $raw['style'] ) ? $raw['style'] : array() ),
+		);
+	}
+
+	/**
+	 * Everything the admin app needs to build its controls.
+	 *
+	 * @return array
+	 */
+	public function export() {
+		$describe = static function ( $item ) {
+			$fields = $item->get_fields();
+			return array(
+				'id'       => $item->get_id(),
+				'label'    => $item->get_label(),
+				'fields'   => $fields,
+				'defaults' => self::sanitize_fields( $fields, array() ),
+			);
+		};
+
+		$skins = array();
+		foreach ( $this->registry->skins() as $skin ) {
+			$skins[] = $skin->to_array();
+		}
+
+		return array(
+			'version'  => self::VERSION,
+			'layouts'  => array_values( array_map( $describe, $this->registry->layouts() ) ),
+			'sources'  => array_values( array_map( $describe, $this->registry->sources() ) ),
+			'skins'    => $skins,
+			'style'    => $this->style_fields(),
+			'defaults' => $this->defaults(),
+		);
+	}
+
+	/**
+	 * Sanitizes option groups keyed by extension ID. Options of inactive extensions are kept so
+	 * switching back restores them; options of unregistered extensions are dropped.
+	 *
+	 * @param array  $registered Extensions keyed by ID.
+	 * @param string $active     Active extension ID.
+	 * @param mixed  $raw        Raw options keyed by extension ID.
+	 * @return array
+	 */
+	private function normalize_group( array $registered, $active, $raw ) {
+		$raw   = is_array( $raw ) ? $raw : array();
+		$clean = array();
+
+		foreach ( $registered as $id => $extension ) {
+			if ( $id === $active || isset( $raw[ $id ] ) ) {
+				$clean[ $id ] = self::sanitize_fields( $extension->get_fields(), isset( $raw[ $id ] ) ? $raw[ $id ] : array() );
+			}
+		}
+
+		return $clean;
+	}
+
+	/**
+	 * Sanitizes a set of values against field definitions.
+	 *
+	 * @param array $fields Field definitions keyed by name.
+	 * @param mixed $input  Raw values.
+	 * @return array
+	 */
+	public static function sanitize_fields( array $fields, $input ) {
+		$input = is_array( $input ) ? $input : array();
+		$clean = array();
+
+		foreach ( $fields as $key => $field ) {
+			$clean[ $key ] = array_key_exists( $key, $input )
+				? self::sanitize_value( $field, $input[ $key ] )
+				: self::field_default( $field );
+		}
+
+		return $clean;
+	}
+
+	/**
+	 * Sanitizes one value. Invalid values fall back to the field default.
+	 *
+	 * @param array $field Field definition.
+	 * @param mixed $value Raw value.
+	 * @return mixed
+	 */
+	public static function sanitize_value( array $field, $value ) {
+		$default = self::field_default( $field );
+
+		switch ( isset( $field['type'] ) ? $field['type'] : 'text' ) {
+			case 'select':
+				$value = is_scalar( $value ) ? (string) $value : '';
+				return isset( $field['choices'] ) && array_key_exists( $value, $field['choices'] ) ? $value : $default;
+
+			case 'toggle':
+				return rest_sanitize_boolean( $value );
+
+			case 'number':
+				if ( ! is_numeric( $value ) ) {
+					return $default;
+				}
+				$value = (int) $value;
+				if ( isset( $field['min'] ) ) {
+					$value = max( (int) $field['min'], $value );
+				}
+				if ( isset( $field['max'] ) ) {
+					$value = min( (int) $field['max'], $value );
+				}
+				return $value;
+
+			case 'color':
+				$value = is_string( $value ) ? sanitize_hex_color( $value ) : '';
+				return $value ? strtolower( $value ) : '';
+
+			case 'terms':
+				$ids = array_filter( array_map( 'absint', (array) $value ) );
+				return array_slice( array_values( array_unique( $ids ) ), 0, 100 );
+
+			case 'class':
+				$classes = preg_split( '/\s+/', is_string( $value ) ? $value : '', -1, PREG_SPLIT_NO_EMPTY );
+				return implode( ' ', array_filter( array_map( 'sanitize_html_class', $classes ) ) );
+
+			default:
+				return is_scalar( $value ) ? sanitize_text_field( (string) $value ) : $default;
+		}
+	}
+
+	/**
+	 * Default value of a field.
+	 *
+	 * @param array $field Field definition.
+	 * @return mixed
+	 */
+	private static function field_default( array $field ) {
+		if ( array_key_exists( 'default', $field ) ) {
+			return $field['default'];
+		}
+		return 'terms' === ( isset( $field['type'] ) ? $field['type'] : '' ) ? array() : '';
+	}
+}

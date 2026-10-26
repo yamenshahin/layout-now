@@ -1,0 +1,359 @@
+/**
+ * Layout Now — base styles: tokens, scoped reset, card.
+ *
+ * Theme-proofing: every selector starts with `.lnow.lnow:not(#_)`. `:not(#_)` adds ID-level
+ * specificity without needing an ID, so rules beat theme selectors like `#main .entry-content img`
+ * without !important. Styles are deliberately unlayered: unlayered theme CSS always beats @layer rules.
+ *
+ * Customization API: the --ln-* custom properties.
+ */
+
+/* ---------- Tokens (skins override these; controls map to them) ---------- */
+
+.lnow.lnow:not(#_) {
+	--ln-accent: #4f46e5;
+	--ln-on-accent: #ffffff;
+	--ln-accent-soft: color-mix(in srgb, var(--ln-accent) 13%, transparent);
+	--ln-accent-text: color-mix(in srgb, var(--ln-accent) 78%, var(--ln-text));
+	--ln-surface: #ffffff;
+	--ln-surface-2: #f4f4f5;
+	--ln-text: #18181b;
+	--ln-muted: #71717a;
+	--ln-border: rgb(24 24 27 / 0.08);
+	--ln-shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 4px 16px -4px rgb(16 24 40 / 0.08);
+	--ln-shadow-hover: 0 2px 4px rgb(16 24 40 / 0.05), 0 18px 40px -12px rgb(16 24 40 / 0.22);
+	--ln-font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--ln-font-heading: var(--ln-font-body);
+	--ln-title-weight: 650;
+	--ln-title-tracking: -0.01em;
+	--ln-title-scale: 1;
+	--ln-radius: 14px;
+	--ln-gap: 20px;
+	--ln-pad: 20px;
+	--ln-ratio: 4 / 3;
+	--ln-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+	container: lnow / inline-size;
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: var(--ln-max, none);
+	margin-inline: auto;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--ln-text);
+	font-family: var(--ln-font-body);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: normal;
+	text-align: start;
+	text-transform: none;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Stepped controls ---------- */
+
+.lnow.lnow:not(#_)[data-radius="sharp"] { --ln-radius: 3px; }
+.lnow.lnow:not(#_)[data-radius="soft"] { --ln-radius: 14px; }
+.lnow.lnow:not(#_)[data-radius="round"] { --ln-radius: 26px; }
+
+.lnow.lnow:not(#_)[data-spacing="compact"] { --ln-gap: 12px; --ln-pad: 14px; }
+.lnow.lnow:not(#_)[data-spacing="comfortable"] { --ln-gap: 20px; --ln-pad: 20px; }
+.lnow.lnow:not(#_)[data-spacing="airy"] { --ln-gap: 32px; --ln-pad: 26px; }
+
+.lnow.lnow:not(#_)[data-ratio="square"] { --ln-ratio: 1; }
+.lnow.lnow:not(#_)[data-ratio="landscape"] { --ln-ratio: 4 / 3; }
+.lnow.lnow:not(#_)[data-ratio="wide"] { --ln-ratio: 16 / 9; }
+.lnow.lnow:not(#_)[data-ratio="portrait"] { --ln-ratio: 3 / 4; }
+
+.lnow.lnow:not(#_)[data-title="s"] { --ln-title-scale: 0.9; }
+.lnow.lnow:not(#_)[data-title="m"] { --ln-title-scale: 1; }
+.lnow.lnow:not(#_)[data-title="l"] { --ln-title-scale: 1.2; }
+
+.lnow.lnow:not(#_)[data-font="inherit"],
+.lnow.lnow:not(#_)[data-font="inherit"] .lnow-card__title {
+	font-family: inherit;
+}
+
+/* ---------- Scoped reset (only what themes commonly break) ---------- */
+
+.lnow.lnow:not(#_) *,
+.lnow.lnow:not(#_) *::before,
+.lnow.lnow:not(#_) *::after {
+	box-sizing: border-box;
+}
+
+.lnow.lnow:not(#_) :is(article, div, h3, p, span, time, figure) {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	box-shadow: none;
+	text-shadow: none;
+	float: none;
+}
+
+.lnow.lnow:not(#_) a {
+	color: inherit;
+	font: inherit;
+	text-decoration: none;
+	border: 0;
+	box-shadow: none;
+	background: none;
+	text-shadow: none;
+}
+
+.lnow.lnow:not(#_) img {
+	display: block;
+	max-width: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	opacity: 1;
+	filter: none;
+}
+
+/* ---------- Card ---------- */
+
+.lnow.lnow:not(#_) .lnow-card {
+	container: lnow-card / inline-size;
+	position: relative;
+	isolation: isolate;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	overflow: hidden;
+	background: var(--ln-surface);
+	border: 1px solid var(--ln-border);
+	border-radius: var(--ln-radius);
+	box-shadow: var(--ln-shadow);
+	color: var(--ln-text);
+	transition: transform 0.35s var(--ln-ease), box-shadow 0.35s var(--ln-ease);
+}
+
+.lnow.lnow:not(#_) .lnow-card__media {
+	position: relative;
+	flex: none;
+	aspect-ratio: var(--ln-ratio);
+	overflow: hidden;
+	background: var(--ln-surface-2);
+}
+
+.lnow.lnow:not(#_) .lnow-card__img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.6s var(--ln-ease);
+}
+
+.lnow.lnow:not(#_) .lnow-card__placeholder {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	background: linear-gradient(135deg, var(--ln-accent), color-mix(in srgb, var(--ln-accent) 40%, #0b0b10));
+	color: var(--ln-on-accent);
+	font-family: var(--ln-font-heading);
+	font-size: clamp(2rem, 22cqi, 5rem);
+	font-weight: 700;
+	line-height: 1;
+	opacity: 0.92;
+}
+
+.lnow.lnow:not(#_) .lnow-card__body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.55em;
+	min-height: 0;
+	padding: var(--ln-pad);
+}
+
+.lnow.lnow:not(#_) .lnow-card__badge {
+	display: inline-block;
+	padding: 0.4em 0.75em;
+	border-radius: 999px;
+	background: var(--ln-accent-soft);
+	color: var(--ln-accent-text);
+	font-size: 0.72em;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.lnow.lnow:not(#_) .lnow-card__title {
+	margin: 0;
+	padding: 0;
+	color: inherit;
+	font-family: var(--ln-font-heading);
+	font-size: calc(1.125em * var(--ln-title-scale));
+	font-style: normal;
+	font-weight: var(--ln-title-weight);
+	line-height: 1.25;
+	letter-spacing: var(--ln-title-tracking);
+	text-transform: none;
+	text-wrap: pretty;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+}
+
+/* Stretched link: the whole card is clickable through the title. */
+.lnow.lnow:not(#_) .lnow-card__title a::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-radius: inherit;
+}
+
+.lnow.lnow:not(#_) .lnow-card__title a:focus {
+	outline: none;
+}
+
+.lnow.lnow:not(#_) .lnow-card__title a:focus-visible::after {
+	outline: 2px solid var(--ln-accent);
+	outline-offset: -2px;
+	border-radius: var(--ln-radius);
+}
+
+.lnow.lnow:not(#_) .lnow-card__excerpt {
+	color: var(--ln-muted);
+	font-size: 0.92em;
+	line-height: 1.55;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+}
+
+.lnow.lnow:not(#_) .lnow-card__foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5em 1em;
+	width: 100%;
+	margin-top: auto;
+	padding-top: 0.25em;
+}
+
+.lnow.lnow:not(#_) .lnow-card__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	color: var(--ln-muted);
+	font-size: 0.8em;
+}
+
+.lnow.lnow:not(#_) .lnow-card__meta > * + *::before {
+	content: "·";
+	margin-right: 0.5em;
+}
+
+.lnow.lnow:not(#_) .lnow-card__more {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35em;
+	color: var(--ln-accent-text);
+	font-size: 0.85em;
+	font-weight: 600;
+}
+
+.lnow.lnow:not(#_) .lnow-card__arrow {
+	transition: transform 0.3s var(--ln-ease);
+}
+
+/* ---------- Overlay cards (text over the image) ---------- */
+
+.lnow.lnow:not(#_)[data-card="overlay"] .lnow-card {
+	aspect-ratio: var(--ln-ratio);
+	justify-content: flex-end;
+	border: 0;
+	background: var(--ln-surface);
+	color: #ffffff;
+}
+
+.lnow.lnow:not(#_)[data-card="overlay"] .lnow-card__media {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	aspect-ratio: auto;
+}
+
+.lnow.lnow:not(#_)[data-card="overlay"] .lnow-card__media::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgb(0 0 0 / 0.86) 0%, rgb(0 0 0 / 0.45) 40%, rgb(0 0 0 / 0) 72%);
+}
+
+.lnow.lnow:not(#_)[data-card="overlay"] .lnow-card__body {
+	flex: none;
+	justify-content: flex-end;
+}
+
+.lnow.lnow:not(#_)[data-card="overlay"] .lnow-card__badge {
+	background: var(--ln-accent);
+	color: var(--ln-on-accent);
+}
+
+.lnow.lnow:not(#_)[data-card="overlay"] :is(.lnow-card__excerpt, .lnow-card__meta) {
+	color: rgb(255 255 255 / 0.78);
+}
+
+.lnow.lnow:not(#_)[data-card="overlay"] .lnow-card__more {
+	color: #ffffff;
+}
+
+/* Narrow cards: drop the excerpt instead of cramming it. */
+@container lnow-card (max-width: 240px) {
+	.lnow.lnow:not(#_) .lnow-card__excerpt {
+		display: none;
+	}
+}
+
+/* ---------- Hover effects ---------- */
+
+.lnow.lnow:not(#_)[data-hover="glow"] .lnow-card:is(:hover, :focus-within) {
+	box-shadow: 0 0 0 1px var(--ln-accent), 0 14px 40px -10px color-mix(in srgb, var(--ln-accent) 55%, transparent);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+	.lnow.lnow:not(#_)[data-hover="lift"] .lnow-card:is(:hover, :focus-within) {
+		transform: translateY(-4px);
+		box-shadow: var(--ln-shadow-hover);
+	}
+
+	.lnow.lnow:not(#_)[data-hover="zoom"] .lnow-card:is(:hover, :focus-within) .lnow-card__img {
+		transform: scale(1.06);
+	}
+
+	.lnow.lnow:not(#_) .lnow-card:is(:hover, :focus-within) .lnow-card__arrow {
+		transform: translateX(3px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lnow.lnow:not(#_) .lnow-card,
+	.lnow.lnow:not(#_) .lnow-card__img {
+		transition: none;
+	}
+}
+
+/* ---------- Editor-only notice ---------- */
+
+.lnow-notice {
+	padding: 12px 16px;
+	border: 1px dashed #a1a1aa;
+	border-radius: 8px;
+	color: #52525b;
+	font: 14px/1.5 system-ui, sans-serif;
+}

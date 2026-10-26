@@ -1,0 +1,11 @@
+CLAUDE.md
+
+# Dependencies and build tooling
+node_modules/
+vendor/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

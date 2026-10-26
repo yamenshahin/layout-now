@@ -1,0 +1,144 @@
+/**
+ * Layout Now — Bento grid. Pure CSS, no JavaScript.
+ *
+ * 4-column grid with fixed row heights; tile classes come from the pattern map in Bento.php.
+ * Responds to its container (not the viewport): 4 → 2 → 1 columns.
+ */
+
+.lnow.lnow:not(#_) .lnow-bento {
+	--ln-row: 240px;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-auto-rows: var(--ln-row);
+	grid-auto-flow: row dense;
+	gap: var(--ln-gap);
+	margin: 0;
+	padding: 0;
+}
+
+.lnow.lnow:not(#_) .lnow-bento[data-height="compact"] { --ln-row: 200px; }
+.lnow.lnow:not(#_) .lnow-bento[data-height="tall"] { --ln-row: 290px; }
+
+/* Tile sizes */
+.lnow.lnow:not(#_) .lnow-tile--hero {
+	grid-column: span 2;
+	grid-row: span 2;
+}
+
+.lnow.lnow:not(#_) .lnow-tile--wide {
+	grid-column: span 2;
+}
+
+.lnow.lnow:not(#_) .lnow-tile--hero-alt {
+	grid-column: 3 / span 2;
+	grid-row: span 2;
+}
+
+.lnow.lnow:not(#_) .lnow-bento[data-pattern="hero-center"] .lnow-tile--hero {
+	grid-column: 2 / span 2;
+	grid-row: 1 / span 2;
+}
+
+/* Cards fill their cell: the grid sets the height, the image takes what the text leaves. */
+.lnow.lnow:not(#_) .lnow-bento .lnow-card,
+.lnow.lnow:not(#_)[data-card="overlay"] .lnow-bento .lnow-card {
+	height: 100%;
+	aspect-ratio: auto;
+}
+
+.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-card__media {
+	flex: 1 1 0;
+	min-height: 64px;
+	aspect-ratio: auto;
+}
+
+.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-card__media + .lnow-card__body {
+	flex: none;
+}
+
+/* Hero and wide tiles carry more text. */
+.lnow.lnow:not(#_) .lnow-bento :is(.lnow-tile--hero, .lnow-tile--hero-alt) .lnow-card__title {
+	font-size: calc(1.6em * var(--ln-title-scale));
+	letter-spacing: calc(var(--ln-title-tracking) - 0.005em);
+}
+
+.lnow.lnow:not(#_) .lnow-bento .lnow-tile--wide .lnow-card__title {
+	font-size: calc(1.3em * var(--ln-title-scale));
+}
+
+.lnow.lnow:not(#_) .lnow-bento .lnow-tile--wide .lnow-card__excerpt {
+	-webkit-line-clamp: 2;
+}
+
+/* Wide stacked tiles are one row tall: put image and text side by side. */
+.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-tile--wide {
+	flex-direction: row;
+}
+
+.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-tile--wide .lnow-card__media {
+	flex: 0 0 46%;
+	min-height: 0;
+}
+
+.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-tile--wide .lnow-card__media + .lnow-card__body {
+	flex: 1 1 0;
+	min-width: 0;
+	justify-content: center;
+	padding: var(--ln-pad);
+}
+
+/* Small tiles: image, badge and title only. */
+.lnow.lnow:not(#_) .lnow-bento .lnow-tile--sm .lnow-card__title {
+	-webkit-line-clamp: 2;
+}
+
+.lnow.lnow:not(#_) .lnow-bento .lnow-tile--sm :is(.lnow-card__excerpt, .lnow-card__foot) {
+	display: none;
+}
+
+/* Medium containers: 2 columns, big tiles span the full width. */
+@container lnow (max-width: 760px) {
+	.lnow.lnow:not(#_) .lnow-bento {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.lnow.lnow:not(#_) .lnow-bento .lnow-tile--hero,
+	.lnow.lnow:not(#_) .lnow-bento .lnow-tile--hero-alt,
+	.lnow.lnow:not(#_) .lnow-bento[data-pattern="hero-center"] .lnow-tile--hero {
+		grid-column: span 2;
+		grid-row: span 2;
+	}
+}
+
+/* Narrow containers: a clean single-column stack. */
+@container lnow (max-width: 480px) {
+	.lnow.lnow:not(#_) .lnow-bento {
+		grid-template-columns: minmax(0, 1fr);
+		grid-auto-rows: auto;
+	}
+
+	.lnow.lnow:not(#_) .lnow-bento .lnow-tile,
+	.lnow.lnow:not(#_) .lnow-bento[data-pattern="hero-center"] .lnow-tile--hero {
+		grid-column: auto;
+		grid-row: auto;
+	}
+
+	.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-tile--wide {
+		flex-direction: column;
+	}
+
+	.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-card__media,
+	.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-tile--wide .lnow-card__media {
+		flex: none;
+		aspect-ratio: 16 / 10;
+	}
+
+	.lnow.lnow:not(#_)[data-card="overlay"] .lnow-bento .lnow-card {
+		height: auto;
+		aspect-ratio: 4 / 3;
+	}
+
+	.lnow.lnow:not(#_)[data-card="overlay"] .lnow-bento :is(.lnow-tile--hero, .lnow-tile--hero-alt) {
+		aspect-ratio: 4 / 5;
+	}
+}

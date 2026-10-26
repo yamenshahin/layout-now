@@ -1,0 +1,73 @@
+/**
+ * Layout Now skin: Editorial — frameless, image-led, serif headlines, thin dividers.
+ */
+
+.lnow.lnow:not(#_)[data-skin="editorial"] {
+	--ln-accent: #c2410c;
+	--ln-on-accent: #ffffff;
+	--ln-surface: transparent;
+	--ln-surface-2: #f1eee8;
+	--ln-text: #1c1917;
+	--ln-muted: #78716c;
+	--ln-border: rgb(28 25 23 / 0.14);
+	--ln-shadow: none;
+	--ln-shadow-hover: none;
+	--ln-font-heading: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+	--ln-title-weight: 600;
+	--ln-title-tracking: -0.012em;
+}
+
+.lnow.lnow:not(#_)[data-skin="editorial"][data-mode="dark"] {
+	--ln-accent: #fb923c;
+	--ln-on-accent: #111111;
+	--ln-surface-2: #292524;
+	--ln-text: #f5f5f4;
+	--ln-muted: #a8a29e;
+	--ln-border: rgb(255 255 255 / 0.14);
+}
+
+@media (prefers-color-scheme: dark) {
+	.lnow.lnow:not(#_)[data-skin="editorial"][data-mode="auto"] {
+		--ln-accent: #fb923c;
+		--ln-on-accent: #111111;
+		--ln-surface-2: #292524;
+		--ln-text: #f5f5f4;
+		--ln-muted: #a8a29e;
+		--ln-border: rgb(255 255 255 / 0.14);
+	}
+}
+
+.lnow.lnow:not(#_)[data-skin="editorial"] .lnow-card {
+	border: 0;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	overflow: visible;
+}
+
+.lnow.lnow:not(#_)[data-skin="editorial"] .lnow-card__media {
+	border-radius: var(--ln-radius);
+}
+
+.lnow.lnow:not(#_)[data-skin="editorial"] .lnow-card__body {
+	padding: calc(var(--ln-pad) * 0.6) 0 0;
+}
+
+.lnow.lnow:not(#_)[data-skin="editorial"] .lnow-card__title {
+	font-size: calc(1.3em * var(--ln-title-scale));
+	line-height: 1.2;
+}
+
+.lnow.lnow:not(#_)[data-skin="editorial"] .lnow-card__badge {
+	padding: 0;
+	border-radius: 0;
+	background: none;
+	color: var(--ln-accent);
+	font-size: 0.7em;
+	letter-spacing: 0.14em;
+}
+
+.lnow.lnow:not(#_)[data-skin="editorial"] .lnow-card__foot {
+	padding-top: 0.75em;
+	border-top: 1px solid var(--ln-border);
+}

@@ -1,0 +1,22 @@
+/**
+ * Layout Now skin: Cinematic — full-bleed images, text over a gradient scrim (overlay cards).
+ */
+
+.lnow.lnow:not(#_)[data-skin="cinematic"] {
+	--ln-accent: #f59e0b;
+	--ln-on-accent: #111111;
+	--ln-surface: #0c0c0e;
+	--ln-surface-2: #18181b;
+	--ln-text: #ffffff;
+	--ln-muted: rgb(255 255 255 / 0.78);
+	--ln-border: transparent;
+	--ln-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.55);
+	--ln-shadow-hover: 0 30px 60px -24px rgb(0 0 0 / 0.65);
+	--ln-title-weight: 700;
+	--ln-title-tracking: -0.02em;
+}
+
+.lnow.lnow:not(#_)[data-skin="cinematic"] .lnow-card__title {
+	font-size: calc(1.2em * var(--ln-title-scale));
+	text-shadow: 0 1px 14px rgb(0 0 0 / 0.3);
+}
