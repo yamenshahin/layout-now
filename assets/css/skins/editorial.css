@@ -15,6 +15,7 @@
 	--ln-font-heading: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
 	--ln-title-weight: 600;
 	--ln-title-tracking: -0.012em;
+	--ln-control-bg: var(--ln-surface-2);
 }
 
 .lnow.lnow:not(#_)[data-skin="editorial"][data-mode="dark"] {

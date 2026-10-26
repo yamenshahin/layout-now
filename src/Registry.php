@@ -8,7 +8,10 @@
 namespace LayoutNow;
 
 use LayoutNow\Layouts\Bento;
+use LayoutNow\Layouts\Carousel;
+use LayoutNow\Layouts\FilterGrid;
 use LayoutNow\Layouts\LayoutInterface;
+use LayoutNow\Layouts\Marquee;
 use LayoutNow\Skins\Skin;
 use LayoutNow\Sources\PostsSource;
 use LayoutNow\Sources\SourceInterface;
@@ -71,7 +74,15 @@ final class Registry {
 			 *
 			 * @param LayoutInterface[] $layouts Layouts keyed by ID.
 			 */
-			$layouts       = apply_filters( 'layout_now_layouts', array( 'bento' => new Bento() ) );
+			$layouts       = apply_filters(
+				'layout_now_layouts',
+				array(
+					'bento'       => new Bento(),
+					'carousel'    => new Carousel(),
+					'marquee'     => new Marquee(),
+					'filter-grid' => new FilterGrid(),
+				)
+			);
 			$this->layouts = $this->collect( $layouts, LayoutInterface::class );
 		}
 		return $this->layouts;

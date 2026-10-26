@@ -1,0 +1,86 @@
+/**
+ * Layout Now — Instant-filter grid.
+ *
+ * Auto-fill grid driven by a minimum card width, so the column count adapts to the container.
+ * filter-grid.js toggles the hidden attribute and animates cards into place.
+ */
+
+.lnow.lnow:not(#_) .lnow-filter {
+	--col: 280px;
+}
+
+.lnow.lnow:not(#_) .lnow-filter[data-size="s"] { --col: 220px; }
+.lnow.lnow:not(#_) .lnow-filter[data-size="l"] { --col: 340px; }
+
+.lnow.lnow:not(#_) .lnow-filter__pills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: calc(var(--ln-gap) + 4px);
+}
+
+.lnow.lnow:not(#_) .lnow-filter__pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	height: 36px;
+	padding: 0 16px;
+	border-radius: 999px;
+	background: var(--ln-control-bg);
+	box-shadow: inset 0 0 0 1px var(--ln-border);
+	color: var(--ln-control-text);
+	font-size: 14px;
+	font-weight: 600;
+	white-space: nowrap;
+	transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s var(--ln-ease);
+}
+
+.lnow.lnow:not(#_) .lnow-filter__pill:hover {
+	background: color-mix(in srgb, var(--ln-control-bg) 90%, var(--ln-control-text));
+}
+
+.lnow.lnow:not(#_) .lnow-filter__pill:active {
+	transform: scale(0.96);
+}
+
+.lnow.lnow:not(#_) .lnow-filter__pill:focus-visible {
+	outline: 2px solid var(--ln-accent);
+	outline-offset: 2px;
+}
+
+.lnow.lnow:not(#_) .lnow-filter__pill[aria-pressed="true"] {
+	background: var(--ln-accent);
+	box-shadow: none;
+	color: var(--ln-on-accent);
+}
+
+.lnow.lnow:not(#_) .lnow-filter[data-pills="soft"] .lnow-filter__pill[aria-pressed="true"] {
+	background: color-mix(in srgb, var(--ln-accent) 14%, var(--ln-control-bg));
+	box-shadow: inset 0 0 0 1.5px var(--ln-accent);
+	color: color-mix(in srgb, var(--ln-accent) 80%, var(--ln-control-text));
+}
+
+.lnow.lnow:not(#_) .lnow-filter__count {
+	font-size: 0.8em;
+	font-variant-numeric: tabular-nums;
+	opacity: 0.65;
+}
+
+.lnow.lnow:not(#_) .lnow-filter__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--col)), 1fr));
+	gap: var(--ln-gap);
+}
+
+.lnow.lnow:not(#_) .lnow-filter__item {
+	display: flex;
+	min-width: 0;
+}
+
+.lnow.lnow:not(#_) .lnow-filter__item[hidden] {
+	display: none;
+}
+
+.lnow.lnow:not(#_) .lnow-filter__item > .lnow-card {
+	flex: 1;
+}

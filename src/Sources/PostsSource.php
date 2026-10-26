@@ -234,28 +234,30 @@ final class PostsSource implements SourceInterface {
 	}
 
 	/**
-	 * Categories, skipping the generic default "Uncategorized".
+	 * Categories first (the first one becomes the badge), then tags. The generic
+	 * "Uncategorized" category is skipped.
 	 *
 	 * @param WP_Post $post Post.
 	 * @return array[]
 	 */
 	private function terms( WP_Post $post ) {
-		$terms = get_the_terms( $post, 'category' );
-		if ( ! is_array( $terms ) ) {
-			return array();
-		}
-
 		$out = array();
-		foreach ( $terms as $term ) {
-			if ( 'uncategorized' === $term->slug ) {
+		foreach ( array( 'category', 'post_tag' ) as $taxonomy ) {
+			$terms = get_the_terms( $post, $taxonomy );
+			if ( ! is_array( $terms ) ) {
 				continue;
 			}
-			$out[] = array(
-				'id'       => $term->term_id,
-				'name'     => html_entity_decode( $term->name, ENT_QUOTES, get_bloginfo( 'charset' ) ),
-				'slug'     => $term->slug,
-				'taxonomy' => $term->taxonomy,
-			);
+			foreach ( $terms as $term ) {
+				if ( 'category' === $taxonomy && 'uncategorized' === $term->slug ) {
+					continue;
+				}
+				$out[] = array(
+					'id'       => $term->term_id,
+					'name'     => html_entity_decode( $term->name, ENT_QUOTES, get_bloginfo( 'charset' ) ),
+					'slug'     => $term->slug,
+					'taxonomy' => $term->taxonomy,
+				);
+			}
 		}
 		return $out;
 	}

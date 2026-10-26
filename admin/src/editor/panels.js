@@ -116,7 +116,7 @@ export function ContentPanel( { schema, config, onOption, onSource } ) {
 }
 
 const CARD_TOGGLES = [ 'show_image', 'show_badge', 'show_excerpt', 'show_date', 'show_author', 'show_more' ];
-const LOOK_FIELDS = [ 'radius', 'spacing', 'hover', 'ratio', 'title_size', 'font' ];
+const LOOK_FIELDS = [ 'align', 'radius', 'spacing', 'hover', 'ratio', 'title_size', 'font' ];
 
 export function StylePanel( { schema, config, onStyle, onPreset } ) {
 	const style = config.style;

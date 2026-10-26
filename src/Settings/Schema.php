@@ -84,6 +84,16 @@ final class Schema {
 				),
 				'live'    => true,
 			),
+			'align'          => array(
+				'type'    => 'select',
+				'label'   => __( 'Width', 'layout-now' ),
+				'default' => 'content',
+				'choices' => array(
+					'content' => __( 'Content', 'layout-now' ),
+					'wide'    => __( 'Wide', 'layout-now' ),
+					'full'    => __( 'Full', 'layout-now' ),
+				),
+			),
 			'radius'         => array(
 				'type'    => 'select',
 				'label'   => __( 'Corners', 'layout-now' ),
@@ -270,6 +280,7 @@ final class Schema {
 		foreach ( $this->registry->layouts() as $layout ) {
 			$entry                  = $describe( $layout );
 			$entry['style']         = $layout->get_style_url() ? add_query_arg( 'ver', VERSION, $layout->get_style_url() ) : '';
+			$entry['script']        = $layout->get_script_url() ? add_query_arg( 'ver', VERSION, $layout->get_script_url() ) : '';
 			$entry['ignored_style'] = array_values( $layout->get_ignored_style_fields() );
 			$entry['fixed_count']   = null !== $layout->get_item_limit( $entry['defaults'] );
 			$layouts[]              = $entry;

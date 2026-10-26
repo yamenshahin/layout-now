@@ -1,0 +1,144 @@
+/**
+ * Layout Now — Edge-peek carousel.
+ *
+ * Slide width = (track − n gaps) / (n + peek), so n cards sit fully in view and a fraction of the
+ * next one peeks in. n comes from container queries per card size, so it adapts to wherever the
+ * layout is placed. Swiping is native scroll-snap; carousel.js only adds arrows and dots.
+ */
+
+.lnow.lnow:not(#_) .lnow-carousel {
+	--n: 1;
+	--p: 0.35;
+	position: relative;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel[data-peek="s"] { --p: 0.18; }
+.lnow.lnow:not(#_) .lnow-carousel[data-peek="l"] { --p: 0.6; }
+
+@container lnow (min-width: 380px) {
+	.lnow.lnow:not(#_) .lnow-carousel[data-size="s"] { --n: 2; }
+}
+
+@container lnow (min-width: 520px) {
+	.lnow.lnow:not(#_) .lnow-carousel[data-size="m"] { --n: 2; }
+}
+
+@container lnow (min-width: 640px) {
+	.lnow.lnow:not(#_) .lnow-carousel[data-size="s"] { --n: 3; }
+}
+
+@container lnow (min-width: 700px) {
+	.lnow.lnow:not(#_) .lnow-carousel[data-size="l"] { --n: 2; }
+}
+
+@container lnow (min-width: 820px) {
+	.lnow.lnow:not(#_) .lnow-carousel[data-size="m"] { --n: 3; }
+}
+
+@container lnow (min-width: 900px) {
+	.lnow.lnow:not(#_) .lnow-carousel[data-size="s"] { --n: 4; }
+}
+
+@container lnow (min-width: 1100px) {
+	.lnow.lnow:not(#_) .lnow-carousel[data-size="l"] { --n: 3; }
+}
+
+@container lnow (min-width: 1180px) {
+	.lnow.lnow:not(#_) .lnow-carousel[data-size="m"] { --n: 4; }
+}
+
+@container lnow (min-width: 1200px) {
+	.lnow.lnow:not(#_) .lnow-carousel[data-size="s"] { --n: 5; }
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__track {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: calc((100% - var(--n) * var(--ln-gap)) / (var(--n) + var(--p)));
+	gap: var(--ln-gap);
+	/* Room for card shadows and hover lift inside the scroll clip. */
+	padding: 8px 2px 24px;
+	margin: -8px -2px -16px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x mandatory;
+	scroll-padding-inline: 2px;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__track::-webkit-scrollbar {
+	display: none;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__slide {
+	display: flex;
+	min-width: 0;
+	scroll-snap-align: start;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__slide > .lnow-card {
+	flex: 1;
+}
+
+/* Controls: hidden until the script is ready, and per the navigation setting. */
+.lnow.lnow:not(#_) .lnow-carousel__controls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-top: 18px;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel:not(.is-ready) .lnow-carousel__controls,
+.lnow.lnow:not(#_) .lnow-carousel.is-static .lnow-carousel__controls {
+	display: none;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__arrows {
+	display: flex;
+	gap: 8px;
+	margin-inline-start: auto;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__arrow {
+	width: 40px;
+	padding: 0;
+}
+
+[dir="rtl"] .lnow.lnow:not(#_) .lnow-carousel__arrow svg {
+	transform: scaleX(-1);
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__dots {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 999px;
+	background: var(--ln-control-bg);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ln-control-text) 35%, transparent);
+	transition: width 0.3s var(--ln-ease), background-color 0.3s;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__dot[aria-current="true"] {
+	width: 22px;
+	background: var(--ln-accent);
+	box-shadow: none;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__dot[hidden] {
+	display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lnow.lnow:not(#_) .lnow-carousel__dot {
+		transition: none;
+	}
+}

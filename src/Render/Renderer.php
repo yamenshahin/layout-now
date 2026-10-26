@@ -180,7 +180,7 @@ final class Renderer {
 
 		$attrs = array(
 			'id'           => $id,
-			'class'        => trim( 'lnow lnow--' . $layout->get_id() . ' ' . $style['css_class'] ),
+			'class'        => trim( 'lnow lnow--' . $layout->get_id() . ( 'content' !== $style['align'] ? ' align' . $style['align'] : '' ) . ' ' . $style['css_class'] ),
 			'data-skin'    => $skin->id,
 			'data-card'    => $skin->card,
 			'data-radius'  => $resolve( 'radius' ),

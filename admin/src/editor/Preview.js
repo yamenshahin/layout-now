@@ -24,12 +24,19 @@ function buildDocument( schema ) {
 		.map( ( href ) => `<link rel="stylesheet" href="${ escapeAttr( href ) }">` )
 		.join( '' );
 
+	// Layout scripts self-register on window.LayoutNow; the preview re-runs them after each render.
+	const scripts = schema.layouts
+		.map( ( layout ) => layout.script )
+		.filter( Boolean )
+		.map( ( src ) => `<script src="${ escapeAttr( src ) }"></script>` )
+		.join( '' );
+
 	return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${ styles }<style>
 		html,body{margin:0;min-height:100%}
 		body{padding:40px 32px;box-sizing:border-box;background:#ffffff;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;transition:background-color .25s}
 		body.is-dark{background:#0b0c10}
 		@media (max-width:600px){body{padding:20px 16px}}
-	</style></head><body><div id="lnow-preview"></div></body></html>`;
+	</style></head><body><div id="lnow-preview"></div>${ scripts }</body></html>`;
 }
 
 export default function Preview( { schema, config, device, background } ) {
@@ -97,6 +104,7 @@ export default function Preview( { schema, config, device, background } ) {
 		if ( lastHtml.current !== html ) {
 			mount.innerHTML = html;
 			lastHtml.current = html;
+			frame.current.contentWindow.LayoutNow?.init?.( mount );
 		}
 		const root = mount.querySelector( '.lnow' );
 		if ( root ) {

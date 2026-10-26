@@ -1,0 +1,132 @@
+/**
+ * Layout Now — Infinite marquee.
+ *
+ * Each track holds two identical copies; translating by -50% loops seamlessly. The trailing
+ * padding equals the gap so both halves are exactly the same width. Pauses on hover/focus,
+ * via the pause button, and when scrolled off-screen. Reduced motion turns it into a
+ * swipeable row.
+ */
+
+.lnow.lnow:not(#_) .lnow-marquee {
+	--w: 280px;
+	--fade: 9%;
+	position: relative;
+}
+
+.lnow.lnow:not(#_) .lnow-marquee[data-size="s"] { --w: 220px; }
+.lnow.lnow:not(#_) .lnow-marquee[data-size="l"] { --w: 340px; }
+
+.lnow.lnow:not(#_) .lnow-marquee[data-fade="none"] { --fade: 0%; }
+.lnow.lnow:not(#_) .lnow-marquee[data-fade="strong"] { --fade: 20%; }
+
+.lnow.lnow:not(#_) .lnow-marquee__row {
+	overflow: hidden;
+	padding: 8px 0 20px;
+	-webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
+	mask-image: linear-gradient(to right, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
+}
+
+.lnow.lnow:not(#_) .lnow-marquee__row + .lnow-marquee__row {
+	margin-top: calc(var(--ln-gap) - 28px);
+}
+
+.lnow.lnow:not(#_) .lnow-marquee__track {
+	display: flex;
+	gap: var(--ln-gap);
+	width: max-content;
+	padding-inline-end: var(--ln-gap);
+	animation: lnow-marquee var(--ln-duration, 40s) linear infinite;
+	will-change: transform;
+}
+
+.lnow.lnow:not(#_) .lnow-marquee[data-direction="right"] .lnow-marquee__track,
+.lnow.lnow:not(#_) .lnow-marquee__row--alt .lnow-marquee__track {
+	animation-direction: reverse;
+}
+
+.lnow.lnow:not(#_) .lnow-marquee[data-direction="right"] .lnow-marquee__row--alt .lnow-marquee__track {
+	animation-direction: normal;
+}
+
+.lnow.lnow:not(#_) .lnow-marquee:is(:hover, :focus-within, .is-paused, .is-offscreen) .lnow-marquee__track {
+	animation-play-state: paused;
+}
+
+.lnow.lnow:not(#_) .lnow-marquee__item {
+	display: flex;
+	flex: none;
+	width: var(--w);
+}
+
+.lnow.lnow:not(#_) .lnow-marquee__item > .lnow-card {
+	flex: 1;
+}
+
+@keyframes lnow-marquee {
+	to {
+		transform: translate3d(-50%, 0, 0);
+	}
+}
+
+[dir="rtl"] .lnow.lnow:not(#_) .lnow-marquee__track {
+	animation-name: lnow-marquee-rtl;
+}
+
+@keyframes lnow-marquee-rtl {
+	to {
+		transform: translate3d(50%, 0, 0);
+	}
+}
+
+/* Pause button */
+.lnow.lnow:not(#_) .lnow-marquee__controls {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 6px;
+	/* Keeps the button off the screen edge when the marquee is full width. */
+	padding-inline: clamp(0px, var(--fade), 24px);
+}
+
+.lnow.lnow:not(#_) .lnow-marquee:not(.is-ready) .lnow-marquee__controls {
+	display: none;
+}
+
+.lnow.lnow:not(#_) .lnow-marquee__toggle {
+	height: 34px;
+	padding: 0 14px 0 12px;
+	font-size: 13px;
+}
+
+.lnow.lnow:not(#_) .lnow-marquee__icon-play,
+.lnow.lnow:not(#_) .lnow-marquee.is-paused .lnow-marquee__icon-pause {
+	display: none;
+}
+
+.lnow.lnow:not(#_) .lnow-marquee.is-paused .lnow-marquee__icon-play {
+	display: block;
+}
+
+/* Reduced motion: a still, swipeable row with each post shown once. */
+@media (prefers-reduced-motion: reduce) {
+	.lnow.lnow:not(#_) .lnow-marquee__track {
+		animation: none;
+	}
+
+	.lnow.lnow:not(#_) .lnow-marquee__row {
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: thin;
+		-webkit-mask-image: none;
+		mask-image: none;
+	}
+
+	.lnow.lnow:not(#_) .lnow-marquee__item {
+		scroll-snap-align: start;
+	}
+
+	.lnow.lnow:not(#_) .lnow-marquee__item[aria-hidden],
+	.lnow.lnow:not(#_) .lnow-marquee__row--alt,
+	.lnow.lnow:not(#_) .lnow-marquee__controls {
+		display: none;
+	}
+}
