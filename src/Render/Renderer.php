@@ -91,7 +91,13 @@ final class Renderer {
 		if ( ! $config ) {
 			return $this->notice( __( 'Layout Now: this layout no longer exists.', 'layout-now' ) );
 		}
-		return $this->render( $config, array( 'id' => 'lnow-' . $id ) );
+		return $this->render(
+			$config,
+			array(
+				'id'    => 'lnow-' . $id,
+				'label' => get_the_title( $id ),
+			)
+		);
 	}
 
 	/**
@@ -102,6 +108,7 @@ final class Renderer {
 	 *     Render arguments.
 	 *
 	 *     @type string $id      Base DOM ID.
+	 *     @type string $label   Accessible name for the layout region (defaults to "Posts").
 	 *     @type bool   $preview Admin preview: skips enqueueing and current-post context.
 	 * }
 	 * @return string
@@ -111,6 +118,7 @@ final class Renderer {
 			$args,
 			array(
 				'id'      => 'lnow',
+				'label'   => '',
 				'preview' => false,
 			)
 		);
@@ -139,7 +147,7 @@ final class Renderer {
 			return $this->notice( __( 'Layout Now: no posts match this layout\'s content settings yet.', 'layout-now' ), $args['preview'] );
 		}
 
-		$html = $layout->render( $items, new View( $config['style'], $layout_options ) );
+		$html = $layout->render( $items, new View( $config['style'], $layout_options, wp_strip_all_tags( (string) $args['label'] ) ) );
 
 		return sprintf(
 			'<div%s>%s</div>',

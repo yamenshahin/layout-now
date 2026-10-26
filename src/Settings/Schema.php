@@ -211,6 +211,16 @@ final class Schema {
 				'step'    => 10,
 				'live'    => true,
 			),
+			'heading'        => array(
+				'type'    => 'select',
+				'label'   => __( 'Card title tag', 'layout-now' ),
+				'default' => 'h3',
+				'choices' => array(
+					'h2' => 'H2',
+					'h3' => 'H3',
+					'h4' => 'H4',
+				),
+			),
 			'css_class'      => array(
 				'type'    => 'class',
 				'label'   => __( 'Extra CSS class', 'layout-now' ),

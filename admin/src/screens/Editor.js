@@ -180,6 +180,24 @@ export default function Editor( { schema, route } ) {
 	const autoBackground = ( ! skin.modes && skin.card === 'stacked' ) || ( skin.modes && config.style.mode === 'dark' ) ? 'dark' : 'light';
 	const canvasBackground = background || autoBackground;
 
+	// Arrow keys / Home / End move between tabs (WAI-ARIA tabs pattern).
+	const onTabKey = ( event ) => {
+		const index = TABS.findIndex( ( item ) => item.id === tab );
+		const moves = {
+			ArrowRight: index + 1,
+			ArrowLeft: index - 1,
+			Home: 0,
+			End: TABS.length - 1,
+		};
+		if ( ! ( event.key in moves ) ) {
+			return;
+		}
+		event.preventDefault();
+		const next = TABS[ ( moves[ event.key ] + TABS.length ) % TABS.length ];
+		setTab( next.id );
+		document.getElementById( `lnow-tab-${ next.id }` )?.focus();
+	};
+
 	const shortcode = id ? `[layout_now id="${ id }"]` : '';
 
 	let status = __( 'Saved', 'layout-now' );
@@ -193,7 +211,7 @@ export default function Editor( { schema, route } ) {
 
 	return (
 		<div className="lnow-editor">
-			<header className="lnow-topbar">
+			<div className="lnow-topbar">
 				<div className="lnow-topbar__start">
 					<button type="button" className="lnow-icon-button" onClick={ () => navigate( {} ) } aria-label={ __( 'All layouts', 'layout-now' ) } title={ __( 'All layouts', 'layout-now' ) }>
 						<ArrowLeft />
@@ -252,11 +270,11 @@ export default function Editor( { schema, route } ) {
 						{ saving ? __( 'Saving…', 'layout-now' ) : __( 'Save', 'layout-now' ) }
 					</button>
 				</div>
-			</header>
+			</div>
 
 			<div className="lnow-editor__body">
 				<aside className="lnow-sidebar">
-					<div className="lnow-tabs" role="tablist">
+					<div className="lnow-tabs" role="tablist" aria-label={ __( 'Settings', 'layout-now' ) } onKeyDown={ onTabKey }>
 						{ TABS.map( ( item ) => (
 							<button
 								key={ item.id }
@@ -265,6 +283,7 @@ export default function Editor( { schema, route } ) {
 								id={ `lnow-tab-${ item.id }` }
 								aria-selected={ tab === item.id }
 								aria-controls="lnow-tabpanel"
+								tabIndex={ tab === item.id ? 0 : -1 }
 								className={ tab === item.id ? 'is-active' : '' }
 								onClick={ () => setTab( item.id ) }
 							>

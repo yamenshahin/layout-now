@@ -32,8 +32,8 @@
 		if ( toggle ) {
 			var label = toggle.querySelector( 'span' );
 			toggle.addEventListener( 'click', function () {
+				// The visible label is the state ("Pause" / "Play"), so no aria-pressed as well.
 				var paused = marquee.classList.toggle( 'is-paused' );
-				toggle.setAttribute( 'aria-pressed', paused ? 'true' : 'false' );
 				if ( label ) {
 					label.textContent = paused ? toggle.dataset.labelPlay : toggle.dataset.labelPause;
 				}

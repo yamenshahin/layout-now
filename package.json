@@ -9,8 +9,21 @@
 		"build": "wp-scripts build ./admin/src/index.js --output-path=./admin/build",
 		"start": "wp-scripts start ./admin/src/index.js --output-path=./admin/build",
 		"lint:js": "wp-scripts lint-js ./admin/src",
-		"lint:css": "wp-scripts lint-style \"./admin/src/**/*.scss\""
+		"lint:css": "wp-scripts lint-style \"./admin/src/**/*.scss\"",
+		"plugin-zip": "wp-scripts plugin-zip"
 	},
+	"files": [
+		"layout-now.php",
+		"uninstall.php",
+		"readme.txt",
+		"package.json",
+		"src",
+		"templates",
+		"assets",
+		"languages",
+		"admin/build",
+		"admin/src"
+	],
 	"devDependencies": {
 		"@wordpress/scripts": "^30.0.0"
 	}

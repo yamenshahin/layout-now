@@ -92,7 +92,7 @@
 	box-sizing: border-box;
 }
 
-.lnow.lnow:not(#_) :is(article, div, h3, p, span, time, figure) {
+.lnow.lnow:not(#_) :is(article, div, h2, h3, h4, p, span, time, figure) {
 	margin: 0;
 	padding: 0;
 	border: 0;

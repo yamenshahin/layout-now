@@ -32,14 +32,32 @@ final class View {
 	private $options;
 
 	/**
+	 * Accessible name for the layout region.
+	 *
+	 * @var string
+	 */
+	private $label;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param array $style   Style settings.
-	 * @param array $options Layout options.
+	 * @param array  $style   Style settings.
+	 * @param array  $options Layout options.
+	 * @param string $label   Accessible name for the layout region.
 	 */
-	public function __construct( array $style, array $options ) {
+	public function __construct( array $style, array $options, $label = '' ) {
 		$this->style   = $style;
 		$this->options = $options;
+		$this->label   = '' !== $label ? $label : __( 'Posts', 'layout-now' );
+	}
+
+	/**
+	 * Accessible name for landmark regions, so several layouts on a page are distinguishable.
+	 *
+	 * @return string
+	 */
+	public function label() {
+		return $this->label;
 	}
 
 	/**
@@ -70,6 +88,16 @@ final class View {
 	 */
 	public function show( $part ) {
 		return ! empty( $this->style[ 'show_' . $part ] );
+	}
+
+	/**
+	 * Heading tag for card titles, so titles fit the page's heading outline.
+	 *
+	 * @return string h2, h3 or h4.
+	 */
+	public function heading_tag() {
+		$tag = isset( $this->style['heading'] ) ? $this->style['heading'] : 'h3';
+		return in_array( $tag, array( 'h2', 'h3', 'h4' ), true ) ? $tag : 'h3';
 	}
 
 	/**

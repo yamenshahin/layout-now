@@ -32,7 +32,7 @@ $layout_now_meta    = $view->show( 'date' ) && $item->timestamp || $view->show( 
 		<?php if ( $layout_now_term ) : ?>
 			<span class="lnow-card__badge"><?php echo esc_html( $layout_now_term['name'] ); ?></span>
 		<?php endif; ?>
-		<h3 class="lnow-card__title"><a href="<?php echo esc_url( $item->url ); ?>"><?php echo esc_html( $item->title ); ?></a></h3>
+		<<?php echo tag_escape( $view->heading_tag() ); ?> class="lnow-card__title"><a href="<?php echo esc_url( $item->url ); ?>"><?php echo esc_html( $item->title ); ?></a></<?php echo tag_escape( $view->heading_tag() ); ?>>
 		<?php if ( '' !== $layout_now_excerpt ) : ?>
 			<p class="lnow-card__excerpt"><?php echo esc_html( $layout_now_excerpt ); ?></p>
 		<?php endif; ?>

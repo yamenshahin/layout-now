@@ -20,7 +20,7 @@ $layout_now_card_args = array(
 	'sizes' => '360px',
 );
 ?>
-<div class="lnow-marquee" data-direction="<?php echo esc_attr( $view->option( 'direction' ) ); ?>" data-size="<?php echo esc_attr( $view->option( 'size' ) ); ?>" data-fade="<?php echo esc_attr( $view->option( 'fade' ) ); ?>" style="<?php echo esc_attr( '--ln-duration:' . $data['duration'] . 's' ); ?>" role="region" aria-label="<?php esc_attr_e( 'Posts', 'layout-now' ); ?>">
+<div class="lnow-marquee" data-direction="<?php echo esc_attr( $view->option( 'direction' ) ); ?>" data-size="<?php echo esc_attr( $view->option( 'size' ) ); ?>" data-fade="<?php echo esc_attr( $view->option( 'fade' ) ); ?>" style="<?php echo esc_attr( '--ln-duration:' . $data['duration'] . 's' ); ?>" role="region" aria-label="<?php echo esc_attr( $view->label() ); ?>">
 	<?php foreach ( $data['rows'] as $layout_now_row => $layout_now_row_items ) : ?>
 		<div class="lnow-marquee__row<?php echo $layout_now_row ? ' lnow-marquee__row--alt' : ''; ?>"<?php echo $layout_now_row ? ' aria-hidden="true" inert' : ''; ?>>
 			<div class="lnow-marquee__track">
@@ -41,7 +41,7 @@ $layout_now_card_args = array(
 	<?php endforeach; ?>
 	<?php if ( $view->option( 'pause_button' ) ) : ?>
 		<div class="lnow-marquee__controls">
-			<button type="button" class="lnow-control lnow-marquee__toggle" aria-pressed="false" data-label-pause="<?php esc_attr_e( 'Pause', 'layout-now' ); ?>" data-label-play="<?php esc_attr_e( 'Play', 'layout-now' ); ?>">
+			<button type="button" class="lnow-control lnow-marquee__toggle" data-label-pause="<?php esc_attr_e( 'Pause', 'layout-now' ); ?>" data-label-play="<?php esc_attr_e( 'Play', 'layout-now' ); ?>">
 				<svg class="lnow-marquee__icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
 				<svg class="lnow-marquee__icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
 				<span><?php esc_html_e( 'Pause', 'layout-now' ); ?></span>

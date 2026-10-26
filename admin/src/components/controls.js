@@ -45,15 +45,23 @@ export function Row( { label, htmlFor, children, hint } ) {
 	);
 }
 
+/**
+ * A row of mutually exclusive toggle buttons (each one Tab-reachable, state via aria-pressed).
+ *
+ * @param {Object}   props          Props.
+ * @param {string}   props.label    Group label.
+ * @param {string}   props.value    Selected value.
+ * @param {Object[]} props.options  Options with value, label and optional title.
+ * @param {Function} props.onChange Change handler.
+ */
 export function Segmented( { label, value, options, onChange } ) {
 	return (
-		<div className="lnow-segmented" role="radiogroup" aria-label={ label }>
+		<div className="lnow-segmented" role="group" aria-label={ label }>
 			{ options.map( ( option ) => (
 				<button
 					key={ option.value }
 					type="button"
-					role="radio"
-					aria-checked={ value === option.value }
+					aria-pressed={ value === option.value }
 					title={ option.title || option.label }
 					className={ value === option.value ? 'is-active' : '' }
 					onClick={ () => onChange( option.value ) }

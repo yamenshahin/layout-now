@@ -115,10 +115,21 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 6px;
+	margin-inline-start: -8px;
 }
 
+/* 24px tap target (WCAG 2.2 target size) around a small visual dot. */
 .lnow.lnow:not(#_) .lnow-carousel__dot {
+	display: grid;
+	place-items: center;
+	min-width: 24px;
+	height: 24px;
+	padding: 0 7px;
+	border-radius: 999px;
+}
+
+.lnow.lnow:not(#_) .lnow-carousel__dot::before {
+	content: "";
 	width: 8px;
 	height: 8px;
 	border-radius: 999px;
@@ -127,7 +138,7 @@
 	transition: width 0.3s var(--ln-ease), background-color 0.3s;
 }
 
-.lnow.lnow:not(#_) .lnow-carousel__dot[aria-current="true"] {
+.lnow.lnow:not(#_) .lnow-carousel__dot[aria-current="true"]::before {
 	width: 22px;
 	background: var(--ln-accent);
 	box-shadow: none;
@@ -138,7 +149,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.lnow.lnow:not(#_) .lnow-carousel__dot {
+	.lnow.lnow:not(#_) .lnow-carousel__dot::before {
 		transition: none;
 	}
 }

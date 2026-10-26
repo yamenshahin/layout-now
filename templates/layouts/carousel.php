@@ -16,11 +16,14 @@ defined( 'ABSPATH' ) || exit;
 $layout_now_total = count( $items );
 $layout_now_nav   = $view->option( 'nav', 'both' );
 ?>
-<div class="lnow-carousel" data-size="<?php echo esc_attr( $view->option( 'size' ) ); ?>" data-peek="<?php echo esc_attr( $view->option( 'peek' ) ); ?>" data-nav="<?php echo esc_attr( $layout_now_nav ); ?>" role="region" aria-roledescription="<?php esc_attr_e( 'carousel', 'layout-now' ); ?>" aria-label="<?php esc_attr_e( 'Posts', 'layout-now' ); ?>">
+<div class="lnow-carousel" data-size="<?php echo esc_attr( $view->option( 'size' ) ); ?>" data-peek="<?php echo esc_attr( $view->option( 'peek' ) ); ?>" data-nav="<?php echo esc_attr( $layout_now_nav ); ?>" role="region" aria-roledescription="<?php esc_attr_e( 'carousel', 'layout-now' ); ?>" aria-label="<?php echo esc_attr( $view->label() ); ?>">
 	<div class="lnow-carousel__track" tabindex="0">
 		<?php foreach ( array_values( $items ) as $layout_now_index => $layout_now_item ) : ?>
-			<?php /* translators: 1: slide number, 2: total slides. */ ?>
-			<div class="lnow-carousel__slide" role="group" aria-roledescription="<?php esc_attr_e( 'slide', 'layout-now' ); ?>" aria-label="<?php echo esc_attr( sprintf( __( '%1$d of %2$d', 'layout-now' ), $layout_now_index + 1, $layout_now_total ) ); ?>">
+			<?php
+			/* translators: 1: slide number, 2: total slides. */
+			$layout_now_slide_label = sprintf( __( '%1$d of %2$d', 'layout-now' ), $layout_now_index + 1, $layout_now_total );
+			?>
+			<div class="lnow-carousel__slide" role="group" aria-roledescription="<?php esc_attr_e( 'slide', 'layout-now' ); ?>" aria-label="<?php echo esc_attr( $layout_now_slide_label ); ?>">
 				<?php
 				$view->card(
 					$layout_now_item,

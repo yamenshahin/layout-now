@@ -16,7 +16,7 @@ const DESCRIPTIONS = {
 export default function NewLayout( { schema } ) {
 	return (
 		<div className="lnow-new">
-			<header className="lnow-new__header">
+			<div className="lnow-new__header">
 				<button type="button" className="lnow-icon-button" onClick={ () => navigate( {} ) } aria-label={ __( 'All layouts', 'layout-now' ) }>
 					<ArrowLeft />
 				</button>
@@ -24,7 +24,7 @@ export default function NewLayout( { schema } ) {
 					<h1>{ __( 'Choose a layout', 'layout-now' ) }</h1>
 					<p>{ __( 'You can switch layouts later. Your content and style settings carry over.', 'layout-now' ) }</p>
 				</div>
-			</header>
+			</div>
 			<div className="lnow-new__grid">
 				{ schema.layouts.map( ( layout ) => (
 					<button

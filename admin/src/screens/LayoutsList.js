@@ -68,7 +68,7 @@ export default function LayoutsList( { schema } ) {
 
 	return (
 		<div className="lnow-list">
-			<header className="lnow-list__header">
+			<div className="lnow-list__header">
 				<div>
 					<h1>{ __( 'Layout Now', 'layout-now' ) }</h1>
 					<p>{ __( 'Modern grids and sliders for your posts. Embed any layout with its shortcode.', 'layout-now' ) }</p>
@@ -79,7 +79,7 @@ export default function LayoutsList( { schema } ) {
 						{ __( 'New layout', 'layout-now' ) }
 					</button>
 				) }
-			</header>
+			</div>
 
 			{ layouts === null && (
 				<div className="lnow-loading">
