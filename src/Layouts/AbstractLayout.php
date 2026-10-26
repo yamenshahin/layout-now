@@ -34,6 +34,13 @@ abstract class AbstractLayout implements LayoutInterface {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function get_ignored_style_fields() {
+		return array();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function get_style_url() {
 		return Plugin::url( 'assets/css/layouts/' . $this->get_id() . '.css' );
 	}

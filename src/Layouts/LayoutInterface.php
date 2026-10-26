@@ -47,6 +47,13 @@ interface LayoutInterface {
 	public function get_item_limit( array $options );
 
 	/**
+	 * Global style fields that have no effect on this layout (hidden in the admin).
+	 *
+	 * @return string[]
+	 */
+	public function get_ignored_style_fields();
+
+	/**
 	 * Stylesheet URL, or empty string.
 	 *
 	 * @return string

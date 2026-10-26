@@ -51,6 +51,28 @@ final class Bento extends AbstractLayout {
 	);
 
 	/**
+	 * Gap-free fallbacks when a site or category has fewer posts than the pattern needs.
+	 *
+	 * @var array
+	 */
+	const FALLBACKS = array(
+		1 => array( 0 => 'full' ),
+		2 => array(
+			0 => 'hero',
+			1 => 'hero-alt',
+		),
+		3 => array(
+			0 => 'hero',
+			1 => 'wide',
+			2 => 'wide',
+		),
+		4 => array(
+			0 => 'hero',
+			1 => 'wide',
+		),
+	);
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function get_id() {
@@ -89,9 +111,17 @@ final class Bento extends AbstractLayout {
 					'regular' => __( 'Regular', 'layout-now' ),
 					'tall'    => __( 'Tall', 'layout-now' ),
 				),
-				'live'    => true,
 			),
 		);
+	}
+
+	/**
+	 * Tile shapes come from the grid, so the image ratio control does not apply.
+	 *
+	 * {@inheritDoc}
+	 */
+	public function get_ignored_style_fields() {
+		return array( 'ratio' );
 	}
 
 	/**
@@ -105,14 +135,57 @@ final class Bento extends AbstractLayout {
 	 * {@inheritDoc}
 	 */
 	public function render( array $items, View $view ) {
-		$pattern = self::PATTERNS[ $this->pattern( $view->options() ) ];
+		list( $pattern, $map ) = $this->resolve( $this->pattern( $view->options() ), count( $items ) );
 
+		$items = array_slice( array_values( $items ), 0, self::capacity( $pattern, count( $items ) ) );
 		$tiles = array();
 		foreach ( array_keys( $items ) as $index ) {
-			$tiles[ $index ] = isset( $pattern['tiles'][ $index ] ) ? $pattern['tiles'][ $index ] : 'sm';
+			$tiles[ $index ] = isset( $map[ $index ] ) ? $map[ $index ] : 'sm';
 		}
 
-		return $view->template( 'layouts/bento', $items, array( 'tiles' => $tiles ) );
+		return $view->template(
+			'layouts/bento',
+			$items,
+			array(
+				'pattern' => $pattern,
+				'tiles'   => $tiles,
+			)
+		);
+	}
+
+	/**
+	 * Picks the tile map that fills the grid without holes for the number of items available.
+	 *
+	 * Full pattern when there are enough items; otherwise the largest pattern that fits
+	 * (Two heroes → Mosaic → Hero left), then dedicated maps for 1–4 items.
+	 *
+	 * @param string $pattern Requested pattern.
+	 * @param int    $count   Items available.
+	 * @return array { 0: effective pattern key, 1: tile map }
+	 */
+	private function resolve( $pattern, $count ) {
+		if ( $count >= self::PATTERNS[ $pattern ]['count'] ) {
+			return array( $pattern, self::PATTERNS[ $pattern ]['tiles'] );
+		}
+		foreach ( array( 'mosaic', 'hero-left' ) as $fallback ) {
+			if ( $count >= self::PATTERNS[ $fallback ]['count'] ) {
+				// Keep the centered hero when the user picked it and there are enough items for it.
+				$fallback = 'hero-left' === $fallback && 'hero-center' === $pattern ? 'hero-center' : $fallback;
+				return array( $fallback, self::PATTERNS[ $fallback ]['tiles'] );
+			}
+		}
+		return array( 'fit-' . $count, self::FALLBACKS[ max( 1, $count ) ] );
+	}
+
+	/**
+	 * How many items an effective pattern displays.
+	 *
+	 * @param string $pattern Effective pattern key.
+	 * @param int    $count   Items available.
+	 * @return int
+	 */
+	private static function capacity( $pattern, $count ) {
+		return isset( self::PATTERNS[ $pattern ] ) ? self::PATTERNS[ $pattern ]['count'] : $count;
 	}
 
 	/**

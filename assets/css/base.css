@@ -20,6 +20,7 @@
 	--ln-text: #18181b;
 	--ln-muted: #71717a;
 	--ln-border: rgb(24 24 27 / 0.08);
+	--ln-image-edge: rgb(0 0 0 / 0.07);
 	--ln-shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 4px 16px -4px rgb(16 24 40 / 0.08);
 	--ln-shadow-hover: 0 2px 4px rgb(16 24 40 / 0.05), 0 18px 40px -12px rgb(16 24 40 / 0.22);
 	--ln-font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -36,9 +37,6 @@
 	container: lnow / inline-size;
 	display: block;
 	box-sizing: border-box;
-	width: 100%;
-	max-width: var(--ln-max, none);
-	margin-inline: auto;
 	padding: 0;
 	border: 0;
 	background: none;
@@ -51,6 +49,12 @@
 	text-align: start;
 	text-transform: none;
 	-webkit-font-smoothing: antialiased;
+}
+
+/* Width follows the theme's content column; only an explicit max width overrides it. */
+.lnow.lnow:not(#_)[style*="--ln-max"] {
+	max-width: var(--ln-max);
+	margin-inline: auto;
 }
 
 /* ---------- Stepped controls ---------- */
@@ -141,6 +145,16 @@
 	aspect-ratio: var(--ln-ratio);
 	overflow: hidden;
 	background: var(--ln-surface-2);
+}
+
+/* Hairline edge so photos with white backgrounds don't bleed into white surfaces. */
+.lnow.lnow:not(#_)[data-card="stacked"] .lnow-card__media::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	box-shadow: inset 0 -1px 0 var(--ln-image-edge);
+	pointer-events: none;
 }
 
 .lnow.lnow:not(#_) .lnow-card__img {

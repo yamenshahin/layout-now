@@ -58,6 +58,13 @@ final class Skin {
 	public $defaults = array();
 
 	/**
+	 * Preview colors for admin thumbnails: bg, surface, text, accent.
+	 *
+	 * @var array
+	 */
+	public $swatch = array();
+
+	/**
 	 * Builds a skin from an array.
 	 *
 	 * @param array $data Skin data.
@@ -77,6 +84,15 @@ final class Skin {
 				'hover'   => 'lift',
 			),
 			isset( $data['defaults'] ) && is_array( $data['defaults'] ) ? $data['defaults'] : array()
+		);
+		$skin->swatch   = array_merge(
+			array(
+				'bg'      => '#f4f4f5',
+				'surface' => '#ffffff',
+				'text'    => '#18181b',
+				'accent'  => '#4f46e5',
+			),
+			isset( $data['swatch'] ) && is_array( $data['swatch'] ) ? $data['swatch'] : array()
 		);
 		return $skin;
 	}

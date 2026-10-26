@@ -131,6 +131,10 @@ final class Plugin {
 		add_action( 'wp_enqueue_scripts', array( $this->assets, 'enqueue_for_current_post' ) );
 
 		$this->cache->hooks();
+
+		if ( is_admin() ) {
+			( new Admin\Page() )->hooks();
+		}
 	}
 
 	/**

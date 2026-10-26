@@ -29,6 +29,12 @@
 	grid-column: span 2;
 }
 
+/* Single-item fallback. */
+.lnow.lnow:not(#_) .lnow-tile--full {
+	grid-column: 1 / -1;
+	grid-row: span 2;
+}
+
 .lnow.lnow:not(#_) .lnow-tile--hero-alt {
 	grid-column: 3 / span 2;
 	grid-row: span 2;
@@ -57,7 +63,7 @@
 }
 
 /* Hero and wide tiles carry more text. */
-.lnow.lnow:not(#_) .lnow-bento :is(.lnow-tile--hero, .lnow-tile--hero-alt) .lnow-card__title {
+.lnow.lnow:not(#_) .lnow-bento :is(.lnow-tile--hero, .lnow-tile--hero-alt, .lnow-tile--full) .lnow-card__title {
 	font-size: calc(1.6em * var(--ln-title-scale));
 	letter-spacing: calc(var(--ln-title-tracking) - 0.005em);
 }

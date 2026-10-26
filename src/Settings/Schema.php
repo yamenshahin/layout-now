@@ -8,6 +8,7 @@
 namespace LayoutNow\Settings;
 
 use LayoutNow\Registry;
+use const LayoutNow\VERSION;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -265,19 +266,118 @@ final class Schema {
 			);
 		};
 
+		$layouts = array();
+		foreach ( $this->registry->layouts() as $layout ) {
+			$entry                  = $describe( $layout );
+			$entry['style']         = $layout->get_style_url() ? add_query_arg( 'ver', VERSION, $layout->get_style_url() ) : '';
+			$entry['ignored_style'] = array_values( $layout->get_ignored_style_fields() );
+			$entry['fixed_count']   = null !== $layout->get_item_limit( $entry['defaults'] );
+			$layouts[]              = $entry;
+		}
+
 		$skins = array();
 		foreach ( $this->registry->skins() as $skin ) {
-			$skins[] = $skin->to_array();
+			$entry          = $skin->to_array();
+			$entry['style'] = $skin->style ? add_query_arg( 'ver', VERSION, $skin->style ) : '';
+			$skins[]        = $entry;
 		}
 
 		return array(
 			'version'  => self::VERSION,
-			'layouts'  => array_values( array_map( $describe, $this->registry->layouts() ) ),
+			'layouts'  => $layouts,
 			'sources'  => array_values( array_map( $describe, $this->registry->sources() ) ),
 			'skins'    => $skins,
 			'style'    => $this->style_fields(),
+			'presets'  => $this->presets(),
 			'defaults' => $this->defaults(),
 		);
+	}
+
+	/**
+	 * One-click style presets: curated combinations of style values.
+	 *
+	 * @return array[]
+	 */
+	public function presets() {
+		$presets = array(
+			array(
+				'id'     => 'crisp',
+				'label'  => __( 'Crisp', 'layout-now' ),
+				'values' => array(
+					'skin'    => 'clean',
+					'accent'  => '',
+					'mode'    => 'light',
+					'radius'  => 'auto',
+					'spacing' => 'auto',
+					'hover'   => 'auto',
+				),
+			),
+			array(
+				'id'     => 'mono',
+				'label'  => __( 'Mono', 'layout-now' ),
+				'values' => array(
+					'skin'    => 'clean',
+					'accent'  => '#18181b',
+					'mode'    => 'light',
+					'radius'  => 'sharp',
+					'spacing' => 'compact',
+					'hover'   => 'lift',
+				),
+			),
+			array(
+				'id'     => 'ocean',
+				'label'  => __( 'Ocean', 'layout-now' ),
+				'values' => array(
+					'skin'    => 'clean',
+					'accent'  => '#0284c7',
+					'mode'    => 'light',
+					'radius'  => 'round',
+					'spacing' => 'airy',
+					'hover'   => 'zoom',
+				),
+			),
+			array(
+				'id'     => 'night-shift',
+				'label'  => __( 'Night shift', 'layout-now' ),
+				'values' => array(
+					'skin'    => 'midnight',
+					'accent'  => '',
+					'radius'  => 'auto',
+					'spacing' => 'auto',
+					'hover'   => 'auto',
+				),
+			),
+			array(
+				'id'     => 'magazine',
+				'label'  => __( 'Magazine', 'layout-now' ),
+				'values' => array(
+					'skin'    => 'editorial',
+					'accent'  => '',
+					'mode'    => 'light',
+					'radius'  => 'auto',
+					'spacing' => 'auto',
+					'hover'   => 'auto',
+				),
+			),
+			array(
+				'id'     => 'showcase',
+				'label'  => __( 'Showcase', 'layout-now' ),
+				'values' => array(
+					'skin'    => 'cinematic',
+					'accent'  => '',
+					'radius'  => 'auto',
+					'spacing' => 'auto',
+					'hover'   => 'auto',
+				),
+			),
+		);
+
+		/**
+		 * Filters the one-click style presets.
+		 *
+		 * @param array[] $presets Presets with id, label and values (style field => value).
+		 */
+		return apply_filters( 'layout_now_presets', $presets );
 	}
 
 	/**

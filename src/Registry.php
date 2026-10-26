@@ -171,6 +171,12 @@ final class Registry {
 					'spacing' => 'comfortable',
 					'hover'   => 'lift',
 				),
+				'swatch'   => array(
+					'bg'      => '#f4f4f5',
+					'surface' => '#ffffff',
+					'text'    => '#18181b',
+					'accent'  => '#4f46e5',
+				),
 			),
 			array(
 				'id'       => 'midnight',
@@ -181,6 +187,12 @@ final class Registry {
 					'radius'  => 'soft',
 					'spacing' => 'comfortable',
 					'hover'   => 'glow',
+				),
+				'swatch'   => array(
+					'bg'      => '#0b0c10',
+					'surface' => '#151824',
+					'text'    => '#e8eaf0',
+					'accent'  => '#8b5cf6',
 				),
 			),
 			array(
@@ -193,6 +205,12 @@ final class Registry {
 					'spacing' => 'airy',
 					'hover'   => 'zoom',
 				),
+				'swatch'   => array(
+					'bg'      => '#faf8f4',
+					'surface' => '#faf8f4',
+					'text'    => '#1c1917',
+					'accent'  => '#c2410c',
+				),
 			),
 			array(
 				'id'       => 'cinematic',
@@ -203,6 +221,12 @@ final class Registry {
 					'radius'  => 'round',
 					'spacing' => 'compact',
 					'hover'   => 'zoom',
+				),
+				'swatch'   => array(
+					'bg'      => '#18181b',
+					'surface' => '#3f3f46',
+					'text'    => '#ffffff',
+					'accent'  => '#f59e0b',
 				),
 			),
 		);

@@ -9,3 +9,6 @@ vendor/
 Thumbs.db
 .vscode/
 .idea/
+
+# Build output (run `npm run build`)
+admin/build/

@@ -196,7 +196,7 @@ final class LayoutStore {
 		return array(
 			'id'        => $post->ID,
 			'title'     => $post->post_title,
-			'modified'  => mysql_to_rfc3339( $post->post_modified_gmt ),
+			'modified'  => gmdate( 'c', (int) strtotime( $post->post_modified_gmt . ' UTC' ) ),
 			'shortcode' => sprintf( '[%s id="%d"]', Shortcode::TAG, $post->ID ),
 			'config'    => $this->read_config( $post->ID ),
 		);
