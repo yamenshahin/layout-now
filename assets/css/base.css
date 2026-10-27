@@ -438,7 +438,7 @@
 
 .lnow.lnow:not(#_) .lnow-card__meta > * + *::before {
 	content: "·";
-	margin-right: 0.5em;
+	margin-inline-end: 0.5em;
 }
 
 .lnow.lnow:not(#_) .lnow-card__more {

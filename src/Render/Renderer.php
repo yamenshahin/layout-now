@@ -139,12 +139,12 @@ final class Renderer {
 
 		$items = $this->cache->get( $source, $config['source_options'][ $source->get_id() ], $context );
 
-		if ( ! $args['preview'] ) {
-			$this->assets->enqueue( $layout, $skin );
-		}
-
 		if ( ! $items ) {
 			return $this->notice( __( 'Layout Now: no posts match this layout\'s content settings yet.', 'layout-now' ), $args['preview'] );
+		}
+
+		if ( ! $args['preview'] ) {
+			$this->assets->enqueue( $layout, $skin );
 		}
 
 		$html = $layout->render( $items, new View( $config['style'], $layout_options, wp_strip_all_tags( (string) $args['label'] ) ) );
@@ -281,6 +281,10 @@ final class Renderer {
 	private function notice( $message, $force = false ) {
 		if ( ! $force && ! current_user_can( Plugin::capability() ) ) {
 			return '';
+		}
+		if ( ! $force ) {
+			// The preview iframe loads base.css itself; on the site the notice needs it enqueued.
+			$this->assets->enqueue_base();
 		}
 		return '<p class="lnow-notice">' . esc_html( $message ) . '</p>';
 	}

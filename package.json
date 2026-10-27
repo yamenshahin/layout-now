@@ -16,6 +16,7 @@
 		"layout-now.php",
 		"uninstall.php",
 		"readme.txt",
+		"license.txt",
 		"package.json",
 		"src",
 		"templates",

@@ -16,6 +16,16 @@
 				LN.inits[ key ]( root || document );
 			} );
 		};
+	// Releases observers and window listeners before markup is discarded (the admin preview re-renders).
+	LN.destroy =
+		LN.destroy ||
+		function ( root ) {
+			Array.prototype.forEach.call( ( root || document ).querySelectorAll( '.is-ready' ), function ( el ) {
+				if ( typeof el.lnowDestroy === 'function' ) {
+					el.lnowDestroy();
+				}
+			} );
+		};
 
 	var observer =
 		'IntersectionObserver' in window
@@ -43,6 +53,11 @@
 		if ( observer ) {
 			observer.observe( marquee );
 		}
+		marquee.lnowDestroy = function () {
+			if ( observer ) {
+				observer.unobserve( marquee );
+			}
+		};
 
 		marquee.classList.add( 'is-ready' );
 	}

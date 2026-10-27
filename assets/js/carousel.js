@@ -16,6 +16,16 @@
 				LN.inits[ key ]( root || document );
 			} );
 		};
+	// Releases observers and window listeners before markup is discarded (the admin preview re-renders).
+	LN.destroy =
+		LN.destroy ||
+		function ( root ) {
+			Array.prototype.forEach.call( ( root || document ).querySelectorAll( '.is-ready' ), function ( el ) {
+				if ( typeof el.lnowDestroy === 'function' ) {
+					el.lnowDestroy();
+				}
+			} );
+		};
 
 	var reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' );
 
@@ -102,11 +112,20 @@
 		} );
 
 		track.addEventListener( 'scroll', schedule, { passive: true } );
+		var observer = null;
 		if ( 'ResizeObserver' in window ) {
-			new window.ResizeObserver( schedule ).observe( track );
+			observer = new window.ResizeObserver( schedule );
+			observer.observe( track );
 		} else {
 			window.addEventListener( 'resize', schedule );
 		}
+		carousel.lnowDestroy = function () {
+			if ( observer ) {
+				observer.disconnect();
+			} else {
+				window.removeEventListener( 'resize', schedule );
+			}
+		};
 
 		carousel.classList.add( 'is-ready' );
 		update();

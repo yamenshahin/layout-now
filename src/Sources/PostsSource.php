@@ -125,6 +125,7 @@ final class PostsSource implements SourceInterface {
 		$args = array(
 			'post_type'           => 'post',
 			'post_status'         => 'publish',
+			'has_password'        => false,
 			// One extra so the current post can be filtered out without a post__not_in query.
 			'posts_per_page'      => $current_id ? $count + 1 : $count,
 			'offset'              => (int) $options['offset'],

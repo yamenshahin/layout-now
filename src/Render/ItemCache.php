@@ -38,6 +38,8 @@ final class ItemCache {
 		add_action( 'edited_term', array( $this, 'flush' ) );
 		add_action( 'delete_term', array( $this, 'flush' ) );
 		add_action( 'profile_update', array( $this, 'flush' ) );
+		// Items cache permalinks.
+		add_action( 'update_option_permalink_structure', array( $this, 'flush' ) );
 	}
 
 	/**

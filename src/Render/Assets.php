@@ -118,6 +118,14 @@ final class Assets {
 	}
 
 	/**
+	 * Enqueues only the base stylesheet (editor notices shown outside the preview).
+	 */
+	public function enqueue_base() {
+		$this->register();
+		wp_enqueue_style( self::BASE );
+	}
+
+	/**
 	 * Asset URLs for one combination, used by the admin preview iframe.
 	 *
 	 * @param LayoutInterface $layout Layout.

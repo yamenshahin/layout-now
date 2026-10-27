@@ -42,7 +42,8 @@ function layout_now_uninstall_site() {
 }
 
 if ( is_multisite() ) {
-	foreach ( get_sites( array( 'fields' => 'ids' ) ) as $layout_now_site_id ) {
+	// 'number' => 0 lifts get_sites()' default limit of 100 sites.
+	foreach ( get_sites( array( 'fields' => 'ids', 'number' => 0 ) ) as $layout_now_site_id ) {
 		switch_to_blog( $layout_now_site_id );
 		layout_now_uninstall_site();
 		restore_current_blog();

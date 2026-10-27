@@ -17,6 +17,16 @@
 				LN.inits[ key ]( root || document );
 			} );
 		};
+	// Releases observers and window listeners before markup is discarded (the admin preview re-renders).
+	LN.destroy =
+		LN.destroy ||
+		function ( root ) {
+			Array.prototype.forEach.call( ( root || document ).querySelectorAll( '.is-ready' ), function ( el ) {
+				if ( typeof el.lnowDestroy === 'function' ) {
+					el.lnowDestroy();
+				}
+			} );
+		};
 
 	var reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' );
 	var EASE = 'cubic-bezier(0.2, 0.7, 0.2, 1)';

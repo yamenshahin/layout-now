@@ -107,6 +107,8 @@ export default function Preview( { schema, config, device, background } ) {
 			return;
 		}
 		if ( lastHtml.current !== html ) {
+			// Let the layout scripts release observers on the markup being replaced.
+			frame.current.contentWindow.LayoutNow?.destroy?.( mount );
 			mount.innerHTML = html;
 			lastHtml.current = html;
 			frame.current.contentWindow.LayoutNow?.init?.( mount );

@@ -257,8 +257,9 @@ final class Schema {
 		$layouts = $this->registry->layouts();
 		$sources = $this->registry->sources();
 
-		$layout = isset( $raw['layout'] ) && isset( $layouts[ $raw['layout'] ] ) ? $raw['layout'] : (string) key( $layouts );
-		$source = isset( $raw['source'] ) && isset( $sources[ $raw['source'] ] ) ? $raw['source'] : (string) key( $sources );
+		// is_string() first: an array or object here would make isset() throw on PHP 8.
+		$layout = isset( $raw['layout'] ) && is_string( $raw['layout'] ) && isset( $layouts[ $raw['layout'] ] ) ? $raw['layout'] : (string) key( $layouts );
+		$source = isset( $raw['source'] ) && is_string( $raw['source'] ) && isset( $sources[ $raw['source'] ] ) ? $raw['source'] : (string) key( $sources );
 
 		return array(
 			'version'        => self::VERSION,
@@ -475,8 +476,9 @@ final class Schema {
 				return $value;
 
 			case 'color':
-				$value = is_string( $value ) ? sanitize_hex_color( $value ) : '';
-				return $value ? strtolower( $value ) : '';
+				// Validated here rather than with sanitize_hex_color(), which older WordPress only loads with the Customizer.
+				$value = is_string( $value ) ? trim( $value ) : '';
+				return preg_match( '/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value ) ? strtolower( $value ) : '';
 
 			case 'terms':
 				$ids = array_filter( array_map( 'absint', (array) $value ) );

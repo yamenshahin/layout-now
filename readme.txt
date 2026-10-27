@@ -71,13 +71,21 @@ Posts, filtered by categories and tags, in any order. Developers can register ot
 
 Deleting the plugin from the Plugins screen removes all saved layouts and their cached data. Your posts are never touched. Deactivating the plugin keeps everything.
 
+= Does it collect data or load anything from other sites? =
+
+No. Layout Now makes no external requests, sets no cookies and collects no data. Everything is served from your own site.
+
 == Screenshots ==
 
-1. Bento Grid with the Editorial skin.
-2. Edge-Peek Carousel with the Clean skin.
-3. Infinite Marquee with the Cinematic skin.
-4. Instant-Filter Grid with category pills.
-5. The layout editor with live preview.
+1. Bento Grid with the Editorial skin: a hero story with tiles packed around it.
+2. Edge-Peek Carousel with the Clean skin: the next card peeks in to invite a swipe.
+3. Infinite Marquee with the Cinematic skin, with a pause button for accessibility.
+4. Instant-Filter Grid: category pills filter the cards without a page reload.
+5. The editor: pick a layout pattern on the left and watch the live preview update.
+6. Style tab: one-click presets, four skins, accent color, light/dark/auto mode and stepped controls.
+7. Preview at tablet width on a dark page background, here with the Midnight skin.
+8. All saved layouts with their shortcodes, ready to copy.
+9. Creating a layout starts with choosing one of the four layout types.
 
 == Changelog ==
 
