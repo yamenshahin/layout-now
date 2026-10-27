@@ -4,7 +4,7 @@ Tags: post grid, carousel, slider, bento, posts
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,5 +89,14 @@ No. Layout Now makes no external requests, sets no cookies and collects no data.
 
 == Changelog ==
 
-= 0.1.0 =
-* Initial release: Bento Grid, Edge-Peek Carousel, Infinite Marquee and Instant-Filter Grid layouts; Clean, Midnight, Editorial and Cinematic skins; live-preview editor.
+= 1.0.0 =
+* Initial release.
+* Layouts: Bento Grid, Edge-Peek Carousel, Infinite Marquee and Instant-Filter Grid.
+* Skins: Clean, Midnight, Editorial and Cinematic, with light, dark and auto color modes.
+* Layout editor with a live, responsive preview, one-click presets and stepped style controls.
+* Loads assets only on pages that show a layout; no jQuery, no external requests.
+
+== Upgrade Notice ==
+
+= 1.0.0 =
+Initial release.

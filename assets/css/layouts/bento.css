@@ -93,6 +93,34 @@
 	padding: var(--ln-pad);
 }
 
+/*
+ * The text column is one row tall. Its parts must not shrink (a shrunk clamped block slices the
+ * last line in half), so the title is held to two lines and the excerpt drops out where a row
+ * can't hold it: compact rows, and wide tiles narrow enough for titles to need every line.
+ */
+.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-tile--wide .lnow-card__body > * {
+	flex-shrink: 0;
+}
+
+.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-tile--wide .lnow-card__title {
+	-webkit-line-clamp: 2;
+}
+
+.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento[data-height="compact"] .lnow-tile--wide .lnow-card__excerpt {
+	display: none;
+}
+
+@container lnow-card (max-width: 560px) {
+	.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento .lnow-tile--wide .lnow-card__excerpt {
+		display: none;
+	}
+
+	/* Without the excerpt there is room for a third title line. */
+	.lnow.lnow:not(#_)[data-card="stacked"] .lnow-bento:not([data-height="compact"]) .lnow-tile--wide .lnow-card__title {
+		-webkit-line-clamp: 3;
+	}
+}
+
 /* Small tiles: image, badge and title only. */
 .lnow.lnow:not(#_) .lnow-bento .lnow-tile--sm .lnow-card__title {
 	-webkit-line-clamp: 2;
