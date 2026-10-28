@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Layout Now
- * Plugin URI:        https://github.com/yamenshahin
+ * Plugin URI:        https://github.com/yamenshahin/layout-now
  * Description:      Modern post layouts — bento grids, edge-peek carousels, infinite marquees and instant-filter grids. Fast, lightweight and theme-proof.
  * Version:           1.0.0
  * Requires at least: 6.6
